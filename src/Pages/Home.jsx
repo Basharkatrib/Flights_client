@@ -9,7 +9,7 @@ function Home(){
             <Banner />
             <Destinations />
             <Services />
-            {/* <Download /> */}
+            <Download />
          </>
     );
 }

@@ -28,10 +28,10 @@ function Services() {
     }
 
     return (
-        <div className="w-full p-4 flex justify-between items-center mt-10">
+        <div className="w-full p-4 flex flex-wrap md:justify-center xl:justify-between items-center">
             {
                 data?.map((item, index) => (
-                    <div key={index} className="w-1/3 p-4 flex flex-col items-center text-center gap-5">
+                    <div key={index} className="basis-full md:basis-1/2 xl:basis-1/3 mb-10  flex flex-col items-center text-center gap-5">
                         <img src={item.image[0].url} />
                         <div className="text-[24px] font-bold">{item.title}</div>
                         <div>{item.desc}</div>
