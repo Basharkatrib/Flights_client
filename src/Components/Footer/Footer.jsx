@@ -1,0 +1,54 @@
+import { useEffect, useState } from "react";
+import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
+
+
+function Footer(){
+
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const lang = useSelector(state => state.lang.lang);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${import.meta.env.VITE_API_KEY}/api/footers?locale=${lang}&populate=footer.group`);
+                setData(response.data.data[0]);
+            } catch (error) {
+                console.log(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [lang]);
+
+    useEffect(()=>{
+      console.log(data)
+    },[data])
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+    
+    return(
+        <div className="w-full px-4 py-8 flex justify-between items-center mt-10 border-t-2 border-neutral-400 ">
+        {
+                data && data.footer && data.footer.map((item, index) => (
+                    <div key={index} className="flex flex-col">
+                        <div className="text-[24px] font-bold text-slate-700">{item.title}</div>
+                        <div className="flex flex-col h-full justify-between">
+                        {
+                            item.group.map((link,index)=>(
+                                <div>{link.title}</div>
+                            ))
+                        }
+                        </div>
+                    </div>
+                ))
+            }
+
+        </div>
+    );
+}
+export default Footer;
