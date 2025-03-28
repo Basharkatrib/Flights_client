@@ -1,0 +1,10 @@
+{
+    "Welcome Back": "Welcome Back",
+    "tutorial_intro": "Learn how to add translations to your React app easily and efficiently.",
+    "about_this_tutorial": "About This Tutorial",
+    "about_this_tutorial_text": "This tutorial will guide you through the steps needed to integrate translations into your React application. By the end of this tutorial, you will be able to provide a seamless multilingual experience to your users.",
+    "why_add_translations": "Why Add Translations?",
+    "why_add_translations_text": "Adding translations to your app allows you to reach a broader audience. In today's globalized world, it's crucial to make your content accessible to users who speak different languages.",
+    "getting_started": "Getting Started",
+    "getting_started_text": "To get started with translations, we will use a popular library called react-i18next. This library provides all the tools you need to translate your app's content."
+}

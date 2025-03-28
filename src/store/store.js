@@ -1,9 +1,23 @@
-import { configureStore } from '@reduxjs/toolkit';
-import langReducer from './langSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { combineReducers } from "redux";
+import langReducer from "./langSlice";
 
-const store = configureStore({
-    reducer: {
-        lang: langReducer,
-    },
+const persistConfig = {
+  key: "root",
+  storage,
+  whitelist: ["lang"], 
+};
+
+const rootReducer = combineReducers({
+  lang: langReducer, 
 });
-export default store;
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+});
+
+// export const persistor = persistStore(store);

@@ -1,26 +1,37 @@
 import banner from '../../assets/images/banner.jpg'
 import button from '../../assets/images/Frame.svg'
+import { useTranslation } from 'react-i18next';
+import { useSelector } from "react-redux";
+import { useEffect } from 'react';
 
-function Banner(){
-    return(
+function Banner() {
+    const lang = useSelector(state => state.lang.lang);
+    const { t, i18n } = useTranslation();
+
+    useEffect(() => {
+        i18n.changeLanguage(lang);
+    }, [lang]);
+
+
+    return (
         <div className=' h-[568px] w-full relative'>
             <img className='h-full w-full object-cover' src={banner} />
             <div className='absolute w-[80%] -bottom-12 left-1/2 gap-3 -translate-x-1/2 rounded-md flex flex-col md:flex-row items-center bg-[#EEEEEE] p-3'>
                 <div className='w-full md:basis-1/4 border-r-2 border-neutral-400'>
-                    <p className='text-[16px] text-neutral-400'>Discover</p>
-                    <h3 className='text-[20px] font-bold'>Choose Departure City</h3>
+                    <p className='text-[16px] text-neutral-400'>{t('Discover')}</p>
+                    <h3 className='text-[20px] font-bold'>{t('Choose Departure City')}</h3>
                 </div>
                 <div className='w-full md:basis-1/4 border-r-2 border-neutral-400'>
-                    <p className='text-[16px] text-neutral-400'>Select</p>
-                    <h3 className='text-[20px] font-bold'>Select Arrival City</h3>
+                    <p className='text-[16px] text-neutral-400'>{t('Select')}</p>
+                    <h3 className='text-[20px] font-bold'>{t('Select Arrival City')}</h3>
                 </div>
                 <div className='w-full md:basis-1/4 border-r-2 border-neutral-400'>
-                    <p className='text-[16px] text-neutral-400'>Choose</p>
-                    <h3 className='text-[20px] font-bold'>Departure Date</h3>
+                    <p className='text-[16px] text-neutral-400'>{t('Choose')}</p>
+                    <h3 className='text-[20px] font-bold'>{t('Departure Date')}</h3>
                 </div>
                 <div className='w-full md:basis-1/4'>
-                    <p className='text-[16px] text-neutral-400'>Choose</p>
-                    <h3 lassName='text-[20px] font-bold'>Return Date</h3>
+                    <p className='text-[16px] text-neutral-400'>{t('Choose')}</p>
+                    <h3 lassName='text-[20px] font-bold'>{t('Return Date')}</h3>
                 </div>
                 <img src={button} />
             </div>

@@ -8,6 +8,13 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import GoogleButton from '../GoogleButton/GoogleButton';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from "react-redux";
+import { useEffect } from 'react';
+
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
@@ -21,6 +28,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 function Login() {
 
     const [open, setOpen] = React.useState(false);
+    const lang = useSelector(state => state.lang.lang);
+    const { t, i18n } = useTranslation();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -29,18 +38,40 @@ function Login() {
         setOpen(false);
     };
 
+    useEffect(()=>{
+        i18n.changeLanguage(lang);
+    },[lang])
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .email('Invalid email address')
+                .required('Required'),
+            password: Yup.string().required('Required'),
+        }),
+        onSubmit: values => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    });
+
     return (
         <React.Fragment>
-            <div className="text-black bg-[#EEEEEE] py-1 px-2 rounded-md cursor-pointer" onClick={()=>handleClickOpen()}>
-                Log In
+            <div className="text-black bg-[#EEEEEE] py-1 px-2 rounded-md cursor-pointer" onClick={() => handleClickOpen()}>
+                {t('Log In')}
             </div>
             <BootstrapDialog
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
                 open={open}
+                fullWidth
+                maxWidth="sm"
             >
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    Log In
+                    {t('Welcome Back')}
                 </DialogTitle>
                 <IconButton
                     aria-label="close"
@@ -54,27 +85,42 @@ function Login() {
                 >
                     <CloseIcon />
                 </IconButton>
-                <DialogContent dividers>
-                    <Typography gutterBottom>
-                        Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-                        dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-                        consectetur ac, vestibulum at eros.
-                    </Typography>
-                    <Typography gutterBottom>
-                        Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
-                        Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </Typography>
-                    <Typography gutterBottom>
-                        Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus
-                        magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec
-                        ullamcorper nulla non metus auctor fringilla.
-                    </Typography>
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
-                        Save changes
-                    </Button>
-                </DialogActions>
+                <hr />
+                <div className='py-5 px-4'>
+                    <form className='w-full flex flex-col gap-3' onSubmit={formik.handleSubmit}>
+                        <div className='w-full'>
+                        <input
+                            className='border-2 w-full p-1 border-gray-300 rounded-lg outline-none'
+                            placeholder='Enter Your Email'
+                            name='email'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.email}
+                        />
+                        
+                        {formik.touched.email && formik.errors.email ? (
+                            <div className='text-red-700'>{formik.errors.email}</div>
+                        ) : null}
+                        </div>
+                        <div className='w-full'>
+                        <input
+                            className='border-2 w-full p-1 border-gray-300 rounded-lg outline-none'
+                            placeholder='Enter Your Password'
+                            name='password'
+                            onChange={formik.handleChange}
+                            onBlur={formik.handleBlur}
+                            value={formik.values.password}
+                        />
+                        {formik.touched.password && formik.errors.password ? (
+                            <div className='text-red-700'>{formik.errors.password}</div>
+                        ) : null}
+                        </div>
+                        <button type='submit' className='bg-slate-700 text-white rounded-md p-1'>{t('Log In')}</button>
+
+                    </form>
+                    <GoogleButton />
+                </div>
+
             </BootstrapDialog>
         </React.Fragment>
     );

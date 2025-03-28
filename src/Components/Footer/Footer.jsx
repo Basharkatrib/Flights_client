@@ -23,9 +23,6 @@ function Footer(){
         fetchData();
     }, [lang]);
 
-    useEffect(()=>{
-      console.log(data)
-    },[data])
 
     if (loading) {
         return <div>Loading...</div>;

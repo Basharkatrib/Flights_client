@@ -30,6 +30,10 @@ function Navbar() {
         fetchData();
     }, [lang]);
 
+    useEffect(()=>{
+        console.log(lang);
+    },[lang])
+
     useEffect(() => {
         const changeColor = () => {
             setScroll(window.scrollY >= 90);
@@ -37,6 +41,7 @@ function Navbar() {
         window.addEventListener("scroll", changeColor);
         return () => window.removeEventListener("scroll", changeColor);
     }, []);
+    
 
 
     if (loading) {
