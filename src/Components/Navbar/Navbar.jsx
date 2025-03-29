@@ -2,19 +2,36 @@ import * as React from "react";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import logo from "../../assets/images/Flyza.svg";
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { AccessAlarm, ThreeDRotation } from '@mui/icons-material';
 import { useDispatch, useSelector } from "react-redux";
 import { setLang } from "../../store/langSlice";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
+import { logout } from "../../store/authSlice";
+
+
 
 function Navbar() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [openmen, isOpen] = useState(false);
     const [scroll, setScroll] = useState(false);
-
+    const [accor, setAccor] = useState(false);
     const lang = useSelector((state) => state.lang.lang);
+    const token = useSelector((state) => state.auth.token);
+    const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,9 +47,9 @@ function Navbar() {
         fetchData();
     }, [lang]);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(lang);
-    },[lang])
+    }, [lang])
 
     useEffect(() => {
         const changeColor = () => {
@@ -41,12 +58,19 @@ function Navbar() {
         window.addEventListener("scroll", changeColor);
         return () => window.removeEventListener("scroll", changeColor);
     }, []);
-    
+
 
 
     if (loading) {
         return <div>Loading...</div>;
     }
+
+    const handle = () => {
+        dispatch(logout());
+        handleClose();
+    }
+
+
 
     return (
         <nav className={`w-full z-50 fixed px-4 ${scroll ? "bg-slate-700" : "bg-none"} py-4 flex justify-between items-center shadow-3 transition-all duration-300`}>
@@ -57,8 +81,41 @@ function Navbar() {
                 {data?.menu_items?.map((item) => (
                     <a key={item.id} href={item.src}>{item.title}</a>
                 ))}
-                <Register />
-                <Login />
+                {
+                    token ? <div>
+                        <div
+                            className="font-bold cursor-pointer"
+                            id="demo-positioned-button"
+                            aria-controls={open ? 'demo-positioned-menu' : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? 'true' : undefined}
+                            onClick={handleClick}
+                        >
+                            Welcome {user.username} !!
+                        </div>
+                        <Menu
+                            id="demo-positioned-menu"
+                            aria-labelledby="demo-positioned-button"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                        >
+                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={() => handle()} >Logout</MenuItem>
+                        </Menu>
+                    </div> : <div className="flex gap-4"><Register /> <Login /></div>
+
+                }
+
+
                 <div className="cursor-pointer" onClick={() => dispatch(setLang(lang === "en" ? "ar" : "en"))}>
                     {lang === "en" ? "ar" : "en"}
                 </div>
@@ -74,9 +131,17 @@ function Navbar() {
                 {data?.menu_items?.map((item) => (
                     <a key={item.id} href={item.src}>{item.title}</a>
                 ))}
-                    <Register />
-                    <Login />
-              
+                {
+                    token ? <div className="w-[50%]">
+                        <div onClick={() => setAccor(!accor)}>Welcome {user.username} !!</div>
+                        <div className={`${accor ? "max-h-screen" : "max-h-0"} bg-slate-50 transition-all duration-500`}>
+                            <div className={`${accor ? "opacity-100" : "opacity-0"} transition-all duration-500 text-black text-center`} onClick={() => dispatch(logout())}>Logout</div>
+                        </div>
+
+                    </div> : <div className="flex flex-col gap-4"><Register /> <Login /></div>
+
+                }
+
                 <div onClick={() => dispatch(setLang(lang === "en" ? "ar" : "en"))}>
                     {lang === "en" ? "ar" : "en"}
                 </div>

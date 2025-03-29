@@ -12,8 +12,9 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import GoogleButton from '../GoogleButton/GoogleButton';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
+import { Login as LoginAction } from '../../store/authSlice';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -30,6 +31,7 @@ function Login() {
     const [open, setOpen] = React.useState(false);
     const lang = useSelector(state => state.lang.lang);
     const { t, i18n } = useTranslation();
+    const dispatch = useDispatch();
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -42,21 +44,31 @@ function Login() {
         i18n.changeLanguage(lang);
     },[lang])
 
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: '',
-        },
-        validationSchema: Yup.object({
-            email: Yup.string()
-                .email('Invalid email address')
-                .required('Required'),
-            password: Yup.string().required('Required'),
-        }),
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
-        },
-    });
+      const handleLogin = async (values) => {
+            const info = {
+              identifier: values.email,
+              password: values.password
+            };
+            
+            try {
+              const res = await dispatch(LoginAction(info)).unwrap(); 
+              console.log("User Login successfully:", res);
+              values.email = "";
+              values.password = "";
+              setOpen(false);
+            } catch (error) {
+              console.log("Login failed:", error);
+            }
+          };
+          
+          const formik = useFormik({
+            initialValues: { email: '', password: '' },
+            validationSchema: Yup.object({
+              email: Yup.string().email('Invalid email address').required('Required'),
+              password: Yup.string().required('Required'),
+            }),
+            onSubmit: handleLogin,
+          });
 
     return (
         <React.Fragment>
