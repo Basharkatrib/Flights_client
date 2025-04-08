@@ -47,9 +47,7 @@ function Navbar() {
         fetchData();
     }, [lang]);
 
-    useEffect(() => {
-        console.log(lang);
-    }, [lang])
+
 
     useEffect(() => {
         const changeColor = () => {
@@ -73,7 +71,7 @@ function Navbar() {
 
 
     return (
-        <nav className={`w-full z-50 fixed px-4 ${scroll ? "bg-slate-700" : "bg-none"} py-4 flex justify-between items-center shadow-3 transition-all duration-300`}>
+        <nav className={`w-full z-50 fixed px-4 ${scroll ? "bg-slate-700" : "bg-none"} ${window.location.pathname !== '/' ? "bg-slate-700" : ""} py-4 flex justify-between items-center shadow-3 transition-all duration-300`}>
             <div className="w-52">
                 <img src={logo} alt="Flyza Airways Logo" />
             </div>

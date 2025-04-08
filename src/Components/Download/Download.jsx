@@ -28,7 +28,7 @@ function Download() {
 
 
     return (
-        <div className="w-full p-4 h-[300px] md:h-auto">
+        <div className="w-full p-4 h-[300px] md:h-auto mb-8">
             <div className="w-full h-full relative">
                 {data && <img className="w-full h-full" src={data.image.url} />}
                 <div className={`absolute text-white z-30 top-3 md:top-1/4 flex flex-col   ${lang === "en" ? "left-4 items-start" : "right-4 text-right items-end"}  w-[300px] md:w-[500px]`}>

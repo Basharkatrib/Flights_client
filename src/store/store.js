@@ -4,16 +4,18 @@ import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
 import langReducer from "./langSlice";
 import authReducer from "./authSlice";
+import flightSelectedReducer from "./flightSelectedSlice";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["lang" , "auth"], 
+  whitelist: ["lang" , "auth" , "flightselect"], 
 };
 
 const rootReducer = combineReducers({
   lang: langReducer, 
-  auth: authReducer
+  auth: authReducer,
+  flightselect: flightSelectedReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
