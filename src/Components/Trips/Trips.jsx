@@ -6,7 +6,7 @@ import Trip from '../Trip/Trip';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 
-function Trips() {
+function Trips({ handle, search }) {
 
 
     const [data, setData] = useState([]);
@@ -14,11 +14,13 @@ function Trips() {
     const [loading, setLoading] = useState(true);
 
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_KEY}/api/flights?locale=${lang}&populate=*`);
                 setData(response.data.data);
+                console.log(data)
             } catch (error) {
                 console.log(error);
             } finally {
@@ -40,22 +42,52 @@ function Trips() {
         setCurrentPage(value);
     };
 
+    useEffect(() => {
+        console.log(search?.passengers)
+    }, [search])
+
     return (
         <div className="p-4 w-full">
             <div>
                 <div>Showing Results for</div>
                 <div className="font-bold text-[30px]">Departure flights</div>
+                <button
+                    onClick={handle}
+                    className='flex mt-3 md:hidden cursor-pointer gap-2 border-[1px] border-gray-900 w-fit p-1 rounded-sm'
+                >
+                    <svg className='w-4' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                        <path fill="#8ba945" d="M3.9 54.9C10.5 40.9 24.5 32 40 32l432 0c15.5 0 29.5 8.9 36.1 22.9s4.6 30.5-5.2 42.5L320 320.9 320 448c0 12.1-6.8 23.2-17.7 28.6s-23.8 4.3-33.5-3l-64-48c-8.1-6-12.8-15.5-12.8-25.6l0-79.1L9 97.3C-.7 85.4-2.8 68.8 3.9 54.9z" />
+                    </svg>
+                    <div className='font-bold'>Filter</div>
+                </button>
+
             </div>
             <div className='flex flex-col items-center'>
                 <div className='w-full'>
-                    {currentItems.map(item => (
-                        <div key={item.id}>
-                            <Trip data={item} />
-                        </div>
-                    ))}
+
+                    {search && Object.values(search).every(value => value !== '') ? (
+                        currentItems
+                            .filter(item =>
+                                item.price < search.price &&
+                                item.departure_airport === search.from &&
+                                item.arrival_airport === search.to &&
+                                item.available_seats >= search.passengers
+                            )
+                            .map(item => (
+                                <div key={item.id}>
+                                    <Trip data={item} />
+                                </div>
+                            ))
+                    ) : (
+                        currentItems.map(item => (
+                            <div key={item.id}>
+                                <Trip data={item} />
+                            </div>
+                        ))
+                    )}
                 </div>
                 <Stack spacing={2}>
-                    <Pagination count={totalPages} page={currentPage} onChange={handleChange} />
+                    <Pagination count={currentItems.length - 1 } page={currentPage} onChange={handleChange} />
                 </Stack>
             </div>
         </div>

@@ -3,6 +3,7 @@ import button from '../../assets/images/Frame.svg'
 import { useTranslation } from 'react-i18next';
 import { useSelector } from "react-redux";
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 function Banner() {
     const lang = useSelector(state => state.lang.lang);
@@ -33,7 +34,7 @@ function Banner() {
                     <p className='text-[16px] text-neutral-400'>{t('Choose')}</p>
                     <h3 lassName='text-[20px] font-bold'>{t('Return Date')}</h3>
                 </div>
-                <img src={button} />
+                <Link to="/mytrips"><img src={button} /></Link>
             </div>
         </div>
     );

@@ -33,6 +33,7 @@ function Trip({data}) {
     
     return (
         <div className="flex flex-col gap-5 w-full mt-5 bg-[#EEEEEE] p-2 mb-5 rounded-md basis-1/2">
+        
             <div className='flex justify-between w-full mb-3'>
                 <div>Flight {data.id}</div>
                 <img className={`${open ? "block" : "hidden"} cursor-pointer`} src={exit} onClick={() => setOpen(false)} />

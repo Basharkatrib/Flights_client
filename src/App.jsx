@@ -8,14 +8,15 @@ import MyTrips from "./Pages/MyTrips";
 const App = () => {
   return (
     <>
-      <Navbar />
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mytrips" element={<MyTrips />} />
         </Routes>
+        <Footer />
       </Router>
-      <Footer />
+
     </>
   );
 };

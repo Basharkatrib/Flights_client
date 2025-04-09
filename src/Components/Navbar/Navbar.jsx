@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "react-router-dom";
 import { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import logo from "../../assets/images/Flyza.svg";
@@ -72,9 +73,9 @@ function Navbar() {
 
     return (
         <nav className={`w-full z-50 fixed px-4 ${scroll ? "bg-slate-700" : "bg-none"} ${window.location.pathname !== '/' ? "bg-slate-700" : ""} py-4 flex justify-between items-center shadow-3 transition-all duration-300`}>
-            <div className="w-52">
+            <Link to="/" className="w-52">
                 <img src={logo} alt="Flyza Airways Logo" />
-            </div>
+            </Link>
             <div className="hidden md:flex items-center gap-4 text-white">
                 {data?.menu_items?.map((item) => (
                     <a key={item.id} href={item.src}>{item.title}</a>
@@ -125,7 +126,7 @@ function Navbar() {
                 <div className={`bg-white w-7 h-[2px] transition-all duration-500 ${openmen ? "transform -translate-y-[3px] rotate-[-45deg]" : "rotate-0"}`} />
             </div>
 
-            <div className={`flex flex-col text-white md:hidden items-center gap-4 p-3 absolute ${scroll ? "bg-slate-700" : "bg-none"} w-[90%] h-auto top-20 left-1/2 ${openmen ? "transform -translate-x-1/2" : "transform translate-x-full"} transition-all duration-500 rounded-xl shadow-3`}>
+            <div className={`flex flex-col text-white md:hidden items-center gap-4 p-3 absolute bg-slate-700 w-[90%] h-auto top-20 left-1/2 ${openmen ? "transform -translate-x-1/2" : "transform translate-x-full"} transition-all duration-500 rounded-xl shadow-3`}>
                 {data?.menu_items?.map((item) => (
                     <a key={item.id} href={item.src}>{item.title}</a>
                 ))}
