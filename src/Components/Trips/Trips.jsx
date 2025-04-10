@@ -31,7 +31,7 @@ function Trips({ handle, search }) {
     }, [lang]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(3);
+    const [itemsPerPage, setItemsPerPage] = useState(2);
 
     const totalPages = Math.ceil(data.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -87,7 +87,7 @@ function Trips({ handle, search }) {
                     )}
                 </div>
                 <Stack spacing={2}>
-                    <Pagination count={currentItems.length - 1 } page={currentPage} onChange={handleChange} />
+                    <Pagination count={totalPages} page={currentPage} onChange={handleChange} />
                 </Stack>
             </div>
         </div>

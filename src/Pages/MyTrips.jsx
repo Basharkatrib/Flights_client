@@ -13,6 +13,7 @@ function MyTrips() {
 
     const handleSearch = (data) => {
           setsearch(data);
+          
     }
 
     useEffect(()=>{

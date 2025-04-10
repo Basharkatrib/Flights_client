@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import Icon from '../../assets/images/Icon.svg';
 function FormDetails({handle , handleSearch}) {
 
-    const [price, setprice] = useState(0);
     const [data, setData] = useState({});
 
     const handleData = (data) => {
         handleSearch(data);
+        localStorage.setItem('searchData', JSON.stringify(data));
     }
 
     return (
@@ -31,7 +31,7 @@ function FormDetails({handle , handleSearch}) {
                     <input className='outline-none border-none rounded-md p-1' type='text' value={data.passengers} onChange={ e => { setData( prev => ({...prev, passengers:e.target.value}))}} />
                 </div>
             </form>
-            <button onClick={() => { handleData(data) }} className='bg-[#8BA145] text-white p-1 rounded-md font-bold'>Select Flight</button>
+            <button onClick={() => { handleData(data) }} className='bg-slate-700 text-white p-1 rounded-md font-bold'>Select Flight</button>
 
             <div className='w-full flex flex-col gap-2'>
                 <div className='flex flex-col gap-3'>
@@ -68,8 +68,8 @@ function FormDetails({handle , handleSearch}) {
                         </div>
                     </form> */}
                     <form className='w-full flex items-center gap-3'>
-                        <label>${data.price}</label>
-                        <input type="range" id="volume" name="volume" min="100" max="500" value={data.price} onChange={ e => { setData( prev => ({...prev, price:e.target.value}))}} className='accent-[#8BA145] w-full' />
+                        <label>${data.price? data.price : "250"}</label>
+                        <input type="range" id="volume" name="volume" min="100" max="500" value={data.price} onChange={ e => { setData( prev => ({...prev, price:e.target.value}))}} className='accent-[#334155] w-full' />
                         <label>$500</label>
                     </form>
                 </div>

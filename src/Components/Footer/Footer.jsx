@@ -33,8 +33,8 @@ function Footer(){
         {
                 data && data.footer && data.footer.map((item, index) => (
                     <div key={index} className="w-full flex flex-col basis-[100%] md:basis-[48%] xl:basis-[23%] ">
-                        <div className="text-[24px] font-bold text-slate-700">{item.title}</div>
-                        <div className="flex flex-col h-full ">
+                        <div className="text-[24px] font-bold text-slate-700 text-left">{item.title}</div>
+                        <div className="flex flex-col h-full text-left">
                         {
                             item.group.map((link,index)=>(
                                 <div key={index}>{link.title}</div>

@@ -7,13 +7,11 @@ const flightSelectedSlice = createSlice({
     initialState,
     reducers: {
         setSelectedFlight: (state, action) => {
-            const flight = state.selectedFlight.find((item) => item.id === action.payload.id);
-            if (flight === undefined) {
-                state.selectedFlight.push(action.payload);
-            }
+            state.selectedFlight = [];
+            state.selectedFlight.push(action.payload);
         },
         deleteSelectedFlight: (state, action) => {
-            state.selectedFlight = state.selectedFlight.filter((item) => item.id !== action.payload.id);
+            state.selectedFlight = [];
         },
     },
 });

@@ -5,6 +5,7 @@ import { combineReducers } from "redux";
 import langReducer from "./langSlice";
 import authReducer from "./authSlice";
 import flightSelectedReducer from "./flightSelectedSlice";
+import spinnerReducer from "./spinnerSlice";
 
 const persistConfig = {
   key: "root",
@@ -15,7 +16,8 @@ const persistConfig = {
 const rootReducer = combineReducers({
   lang: langReducer, 
   auth: authReducer,
-  flightselect: flightSelectedReducer
+  flightselect: flightSelectedReducer,
+  spinner: spinnerReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

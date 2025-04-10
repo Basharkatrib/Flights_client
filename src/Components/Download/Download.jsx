@@ -1,20 +1,25 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
+import { addSpinner, removeSpinner, selectSpinner } from "../../store/spinnerSlice";
+
 function Download() {
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const lang = useSelector(state => state.lang.lang);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchData = async () => {
+            dispatch(addSpinner());
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_KEY}/api/download?locale=${lang}&populate=*`);
                 setData(response.data.data);
             } catch (error) {
                 console.log(error);
             } finally {
+                dispatch(removeSpinner());
                 setLoading(false);
             }
         };
@@ -22,9 +27,15 @@ function Download() {
     }, [lang]);
 
 
+    useEffect(()=>{
+       console.log(loading);
+    },[loading])
+
     if (loading) {
         return <div>Loading...</div>;
     }
+
+
 
 
     return (
