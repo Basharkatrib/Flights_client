@@ -1,11 +1,15 @@
 import { useEffect, useState } from "react";
 import FormDetails from "../Components/FormDetails/FormDetails";
 import Trips from "../Components/Trips/Trips";
+import Spinner from "./Spinner";
+import { useSelector } from "react-redux";
 
 function MyTrips() {
 
     const [start, setstart] = useState(false);
     const [search, setsearch] = useState();
+    const spinner = useSelector(state => state.spinner.spinnerCount);
+    const [loading, setLoading] = useState(true);
 
     const handleStart = () => {
         setstart(!start)
@@ -19,6 +23,22 @@ function MyTrips() {
     useEffect(()=>{
         console.log(search)
     },[search])
+
+
+    useEffect(()=>{
+        if(spinner === 0) {
+          setLoading(false);
+        }
+      },[spinner])
+      
+    
+    
+      useEffect(()=>{
+          console.log(spinner)
+      },[spinner])
+      
+    
+      if (loading) return <Spinner />
 
     return (
         <div className="w-full flex pt-16">

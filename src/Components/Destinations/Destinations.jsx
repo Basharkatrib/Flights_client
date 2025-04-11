@@ -2,20 +2,24 @@ import FlightCard from "../FlightCard/FlightCard";
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
+import { addSpinner, removeSpinner, selectSpinner } from "../../store/spinnerSlice";
 
 function Destinations(){
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const lang = useSelector(state => state.lang.lang);
+    const dispatch = useDispatch();
 
     useEffect(()=>{
         const fetchData = async () => {
+            dispatch(addSpinner());
             try{
                 const response = await axios.get(`${import.meta.env.VITE_API_KEY}/api/topdests?locale=${lang}&populate=trip.image`);
                 setData(response.data.data[0]);
             }catch(error){
                 console.log(error);
             }finally{
+                dispatch(removeSpinner());
                 setLoading(false);
             }
         }

@@ -24,12 +24,8 @@ function Download() {
             }
         };
         fetchData();
-    }, [lang]);
+    }, [lang , dispatch]);
 
-
-    useEffect(()=>{
-       console.log(loading);
-    },[loading])
 
     if (loading) {
         return <div>Loading...</div>;

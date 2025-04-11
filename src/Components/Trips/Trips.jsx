@@ -4,7 +4,8 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import Trip from '../Trip/Trip';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { addSpinner, removeSpinner, selectSpinner } from "../../store/spinnerSlice";
 
 function Trips({ handle, search }) {
 
@@ -12,11 +13,13 @@ function Trips({ handle, search }) {
     const [data, setData] = useState([]);
     const lang = useSelector(state => state.lang.lang);
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
 
 
 
     useEffect(() => {
         const fetchData = async () => {
+            dispatch(addSpinner());
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_KEY}/api/flights?locale=${lang}&populate=*`);
                 setData(response.data.data);
@@ -24,6 +27,7 @@ function Trips({ handle, search }) {
             } catch (error) {
                 console.log(error);
             } finally {
+                dispatch(removeSpinner());
                 setLoading(false);
             }
         };
@@ -65,7 +69,7 @@ function Trips({ handle, search }) {
             <div className='flex flex-col items-center'>
                 <div className='w-full'>
 
-                    {search && Object.values(search).every(value => value !== '') ? (
+                    {search && Object.keys(search).length !== 0 && Object.values(search).every(value => value !== '' ) ? (
                         currentItems
                             .filter(item =>
                                 item.price < search.price &&

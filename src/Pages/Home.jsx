@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Banner from "../Components/Banner/Banner";
 import Destinations from "../Components/Destinations/Destinations";
 import Download from "../Components/Download/Download";
 import Services from "../Components/Services/Services";
 import { useNavigate } from "react-router-dom";
-import { addSpinner, removeSpinner, selectSpinner } from "../store/spinnerSlice";
 import { useSelector } from "react-redux";
+import Spinner from "./Spinner";
 
 function Home() {
   const navigate = useNavigate();
-  const spinner = useSelector(state => state.spinner.spinnerCount)
+  const spinner = useSelector(state => state.spinner.spinnerCount);
 
 
   useEffect(() => {
@@ -28,26 +28,26 @@ function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log(spinner)
-  }, [spinner])
+  
 
- 
-  // if (spinner > 0) {
-  //   return (
-  //     <div className="w-full h-screen flex justify-center items-center">
-  //       <div className="text-2xl font-bold animate-pulse">Loading ...</div>
-  //     </div>
-  //   );
-  // }
+
+  
+
+
+
+
 
   return (
     <>
+    {spinner > 0 && <Spinner />}
+    <div className={spinner > 0 ? "hidden" : ""}>
       <Banner />
       <Destinations />
       <Services />
       <Download />
-    </>
+    </div>
+  </>
+
   );
 }
 
