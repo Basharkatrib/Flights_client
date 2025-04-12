@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 function Checkout() {
-    const [passengerCount, setPassengerCount] = useState(0);
+    const [passengerCount, setPassengerCount] = useState(1);
     const [pay, setPay] = useState(false);
     const [completed, setCompleted] = useState(false);
     const flight = useSelector((state) => state.flightselect.selectedFlight);
@@ -14,7 +15,7 @@ function Checkout() {
         const storedItems = JSON.parse(localStorage.getItem("searchData"));
         if (storedItems) {
             const count = Number(storedItems.passengers);
-            setPassengerCount(count);
+            setPassengerCount(count ? count : 1);
             const total = count * (flight?.[0]?.price || 0);
             setAllPrice(total);
             localStorage.setItem("Allprice", JSON.stringify(total));
@@ -45,6 +46,15 @@ function Checkout() {
             setCompleted(true);
         },
     });
+
+    const handlePaymentError = (error) => {
+        console.error("Payment Error:", error);
+        alert("An error occurred during the payment process. Please try again.");
+      };
+
+      const handlePaymentSuccess = () => {
+        console.log("Payment Successful:");
+      };
 
     return (
         <div className="w-full flex flex-col pt-20 px-4">
@@ -138,7 +148,7 @@ function Checkout() {
                     <hr />
                     <div className="w-full flex justify-between">
                         <div className="font-bold">Passengers:</div>
-                        <div>{passengerCount}</div>
+                        <div>{passengerCount ? passengerCount : 1}</div>
                     </div>
                     <div className="w-full flex justify-between">
                         <div className="font-bold">Stops:</div>
@@ -150,9 +160,32 @@ function Checkout() {
                     </div>
                     <div className="w-full flex justify-between">
                         <div className="font-bold">Total Price:</div>
-                        <div>{allprice}</div>
+                        <div>{allprice ? allprice : flight[0]?.price}</div>
                     </div>
-                    {pay && <button className="w-full font-bold bg-slate-700 hover:bg-slate-600 mb-3 px-4 py-2 text-white transition-all duration-300 rounded">Pay ${allprice}</button>}
+                    {pay && <button className="w-full mb-3">
+                        <PayPalScriptProvider
+                            options={{
+                                "client-id": "ATIzfGbQ6tjutpRZ4PBZC-2lMC1JjcKbw7Lmag_Xil2Hlwpc5_fN_eHlVVeQZZVpZON2NmcJ1ZbKGby7", // Replace with your actual PayPal Client ID
+                                currency: "USD", // Adjust the currency code as needed
+                            }}
+                        >
+                            <PayPalButtons
+                                createOrder={(data, actions) => {
+                                    return actions.order.create({
+                                        purchase_units: [
+                                            {
+                                                amount: {
+                                                    value: allprice ? allprice : flight[0]?.price,
+                                                },
+                                            },
+                                        ],
+                                    });
+                                }}
+                                onApprove={handlePaymentSuccess}
+                                onError={handlePaymentError}
+                            />
+                        </PayPalScriptProvider>
+                    </button>}
                 </div>
             </div>
         </div>

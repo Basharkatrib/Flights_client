@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from 'react';
 import { Register as RegisterAction } from '../../store/authSlice';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -39,7 +40,9 @@ function Register() {
     };
     const handleClose = () => {
         setOpen(false);
+      
     };
+
 
     useEffect(() => {
         i18n.changeLanguage(lang);
@@ -76,6 +79,8 @@ function Register() {
         }),
         onSubmit: handleRegister,
     });
+
+
 
 
     return (

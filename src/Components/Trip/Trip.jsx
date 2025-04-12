@@ -4,6 +4,7 @@ import { setSelectedFlight, deleteSelectedFlight} from '../../store/flightSelect
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
 
 function Trip({data}) {
 
@@ -11,13 +12,31 @@ function Trip({data}) {
     const [open, setOpen] = useState(false);
     const flight = useSelector(state => state.flightselect);
     const dispatch = useDispatch();
-    const [cancel, setCancel] = useState(false)
+    const [cancel, setCancel] = useState(false);
+    const [seats, setSeats] = useState();
 
     useEffect(()=>{
         console.log(flight.selectedFlight)
     },[flight]);
 
-    const selectFlight = ()=>{
+    const selectFlight = async (id) =>{
+        try{
+            const res = await axios.get(`${import.meta.env.VITE_API_KEY}/api/flights/${id}`);
+            console.log(res.data.data.available_seats);
+            // setSeats(res.data.data.available_seats);
+            if(res.data.data.available_seats > 1){
+                const update = await axios.put(`${import.meta.env.VITE_API_KEY}/api/flights/${id}`,{ 
+                    "data": {
+                      "available_seats": res.data.data.available_seats -1,
+                    }
+                  });
+                console.log(update.data.data)
+
+            }
+            
+        }catch(error){
+            console.log(error)
+        }
         dispatch(setSelectedFlight(data));
         setCancel(!cancel);
     };
@@ -61,7 +80,7 @@ function Trip({data}) {
 
             <div className={`${open ? "max-h-screen" : "max-h-0"} transition-all duration-500 w-full flex flex-col gap-5`}>
                 <div className={`${open ? "opacity-100" : "opacity-0"} flex justify-end transition-all duration-500`}>
-                    <Link to="/checkout"> <div className={`${cancel ? "hidden" : "block"} bg-[#334155] p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => selectFlight()}>Select Flight & Go To Checkout</div></Link>
+                    <Link to="/checkout"> <div className={`${cancel ? "hidden" : "block"} bg-[#334155] p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => selectFlight(data.documentId)}>Select Flight & Go To Checkout</div></Link>
                     <div className={`${cancel ? "block" : "hidden"} bg-red-800 p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => deleteFlight()}>Cancel</div>
                 </div>
                 <div className={`font-bold text-[24px] ${open ? "opacity-100" : "opacity-0"} transition-all duration-500`}>{data.departure_airport} - {data.arrival_airport}, {data.date}</div>

@@ -26,7 +26,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     },
 }));
 
-function Login() {
+function Login({ok, handlee}) {
 
     const [open, setOpen] = React.useState(false);
     const lang = useSelector(state => state.lang.lang);
@@ -38,6 +38,7 @@ function Login() {
     };
     const handleClose = () => {
         setOpen(false);
+        handlee();
     };
 
     useEffect(()=>{
@@ -78,7 +79,7 @@ function Login() {
             <BootstrapDialog
                 onClose={handleClose}
                 aria-labelledby="customized-dialog-title"
-                open={open}
+                open={open || ok}
                 fullWidth
                 maxWidth="sm"
             >

@@ -15,7 +15,7 @@ import { logout } from "../../store/authSlice";
 
 
 
-function Navbar() {
+function Navbar({ok, handlee}) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [openmen, isOpen] = useState(false);
@@ -110,7 +110,7 @@ function Navbar() {
                             <MenuItem onClick={handleClose}>Profile</MenuItem>
                             <MenuItem onClick={() => handle()} >Logout</MenuItem>
                         </Menu>
-                    </div> : <div className="flex gap-4"><Register /> <Login /></div>
+                    </div> : <div className="flex gap-4"><Register /> <Login ok={ok} handlee={handlee}/></div>
 
                 }
 
