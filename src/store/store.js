@@ -6,18 +6,21 @@ import langReducer from "./langSlice";
 import authReducer from "./authSlice";
 import flightSelectedReducer from "./flightSelectedSlice";
 import spinnerReducer from "./spinnerSlice";
+import newIdReducer from './newIdSlice';
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["lang" , "auth" , "flightselect"], 
+  whitelist: ["lang" , "auth" , "flightselect" , "newId"], 
 };
 
 const rootReducer = combineReducers({
   lang: langReducer, 
   auth: authReducer,
   flightselect: flightSelectedReducer,
+  newId : newIdReducer,
   spinner: spinnerReducer,
+ 
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

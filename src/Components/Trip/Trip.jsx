@@ -1,6 +1,7 @@
 import exit from '../../assets/images/x.svg';
 import arrow from '../../assets/images/arrow.svg';
 import { setSelectedFlight, deleteSelectedFlight} from '../../store/flightSelectedSlice';
+import { setId }  from '../../store/newIdSlice';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {Link} from 'react-router-dom';
@@ -12,26 +13,23 @@ function Trip({data}) {
     const [open, setOpen] = useState(false);
     const flight = useSelector(state => state.flightselect);
     const dispatch = useDispatch();
+    const newIdd = useSelector((state) => state.newId.id);
     const [cancel, setCancel] = useState(false);
     const [seats, setSeats] = useState();
+    const [newId, setNewId] = useState();
 
-    useEffect(()=>{
-        console.log(flight.selectedFlight)
-    },[flight]);
 
     const selectFlight = async (id) =>{
         try{
             const res = await axios.get(`${import.meta.env.VITE_API_KEY}/api/flights/${id}`);
-            console.log(res.data.data.available_seats);
-            // setSeats(res.data.data.available_seats);
             if(res.data.data.available_seats > 1){
                 const update = await axios.put(`${import.meta.env.VITE_API_KEY}/api/flights/${id}`,{ 
                     "data": {
-                      "available_seats": res.data.data.available_seats -1,
+                      "available_seats": res.data.data.available_seats -1
                     }
                   });
-                console.log(update.data.data)
-
+                  console.log(update.data.data.id)
+                  dispatch(setId(update.data.data.id))
             }
             
         }catch(error){
@@ -45,6 +43,13 @@ function Trip({data}) {
         dispatch(deleteSelectedFlight({ id: data.id })); 
         setCancel(!cancel);
     }
+
+
+    useEffect(()=>{
+        console.log(newIdd)
+
+    },[newId])
+
 
   
 

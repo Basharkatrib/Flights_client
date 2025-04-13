@@ -23,7 +23,6 @@ function Trips({ handle, search }) {
             try {
                 const response = await axios.get(`${import.meta.env.VITE_API_KEY}/api/flights?locale=${lang}&populate=*`);
                 setData(response.data.data);
-                console.log(data)
             } catch (error) {
                 console.log(error);
             } finally {
@@ -47,8 +46,8 @@ function Trips({ handle, search }) {
     };
 
     useEffect(() => {
-        console.log(search?.passengers)
-    }, [search])
+        console.log(data);
+    }, [data])
 
     return (
         <div className="p-4 w-full">

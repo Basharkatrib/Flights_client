@@ -20,9 +20,6 @@ function MyTrips() {
           
     }
 
-    useEffect(()=>{
-        console.log(search)
-    },[search])
 
 
     useEffect(()=>{
@@ -33,9 +30,7 @@ function MyTrips() {
       
     
     
-      useEffect(()=>{
-          console.log(spinner)
-      },[spinner])
+  
       
     
       if (loading) return <Spinner />

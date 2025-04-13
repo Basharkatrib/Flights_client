@@ -3,12 +3,15 @@ import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import axios from "axios";
 
 function Checkout() {
     const [passengerCount, setPassengerCount] = useState(1);
     const [pay, setPay] = useState(false);
     const [completed, setCompleted] = useState(false);
     const flight = useSelector((state) => state.flightselect.selectedFlight);
+    const newId = useSelector((state) => state.newId.id)
+    const auth = useSelector((state) => state.auth.user);
     const [allprice, setAllPrice] = useState();
 
     useEffect(() => {
@@ -47,13 +50,33 @@ function Checkout() {
         },
     });
 
+    useEffect(()=>{
+        console.log(newId)
+    },[])
+
     const handlePaymentError = (error) => {
         console.error("Payment Error:", error);
         alert("An error occurred during the payment process. Please try again.");
       };
 
-      const handlePaymentSuccess = () => {
-        console.log("Payment Successful:");
+      const handlePaymentSuccess = async () => {
+        try{
+           const res = await axios.post('https://flights-server.onrender.com/api/orders',{
+                "data":
+                    {
+                        "user": {
+                            "id": auth.id
+                        },
+                        "flight": {
+                            "id": newId
+                        },
+                        "state" : true
+                    }
+            });
+            console.log("Payment Successful:");
+        }catch(error){
+            console.log(error)
+        }
       };
 
     return (
