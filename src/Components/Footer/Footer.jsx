@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
+import Skelaton from "../Skelaton/Skelaton";
 
 
 function Footer(){
@@ -25,7 +26,7 @@ function Footer(){
 
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Skelaton count={4} ok={true} width={24}/>;
     }
     
     return(

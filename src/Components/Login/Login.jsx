@@ -1,4 +1,5 @@
 import * as React from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -15,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from 'react';
 import { Login as LoginAction } from '../../store/authSlice';
+import { useState } from 'react';
 
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -30,6 +32,7 @@ function Login({ok, handlee}) {
 
     const [open, setOpen] = React.useState(false);
     const lang = useSelector(state => state.lang.lang);
+    const [loading, setLoading] = useState(false);
     const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
 
@@ -46,6 +49,7 @@ function Login({ok, handlee}) {
     },[lang])
 
       const handleLogin = async (values) => {
+        setLoading(true);
             const info = {
               identifier: values.email,
               password: values.password
@@ -53,12 +57,15 @@ function Login({ok, handlee}) {
             
             try {
               const res = await dispatch(LoginAction(info)).unwrap(); 
-              console.log("User Login successfully:", res);
               values.email = "";
               values.password = "";
               setOpen(false);
+              toast.success('Login successfully!')
+              setLoading(false)
             } catch (error) {
               console.log("Login failed:", error);
+              toast.error("Uncorrect email or password!");
+              setLoading(false)
             }
           };
           
@@ -73,7 +80,7 @@ function Login({ok, handlee}) {
 
     return (
         <React.Fragment>
-            <div className="text-black bg-[#EEEEEE] py-1 px-2 rounded-md cursor-pointer" onClick={() => handleClickOpen()}>
+            <div className="text-black text-center bg-[#EEEEEE] py-1 px-2 rounded-md cursor-pointer" onClick={() => handleClickOpen()}>
                 {t('Log In')}
             </div>
             <BootstrapDialog
@@ -128,7 +135,7 @@ function Login({ok, handlee}) {
                             <div className='text-red-700'>{formik.errors.password}</div>
                         ) : null}
                         </div>
-                        <button type='submit' className='bg-slate-700 text-white rounded-md p-1'>{t('Log In')}</button>
+                        <button type='submit' className='bg-slate-700 text-white rounded-md p-1'>{loading ? 'Loading...' : t('Log In')}</button>
 
                     </form>
                     <GoogleButton />

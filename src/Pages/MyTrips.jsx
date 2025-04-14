@@ -27,16 +27,17 @@ function MyTrips() {
           setLoading(false);
         }
       },[spinner])
+
+
+
+    
       
-    
-    
-  
       
-    
+
       if (loading) return <Spinner />
 
     return (
-        <div className="w-full flex pt-16">
+        <div className="w-full flex pt-16 md:pt-14">
             <div className={`${start ? 'w-full block' : 'hidden'} md:basis-1/4 md:block md:opacity-100`}>
                 <FormDetails handle = {handleStart} handleSearch = {handleSearch}/>
             </div>

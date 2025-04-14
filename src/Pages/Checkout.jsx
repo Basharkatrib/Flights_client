@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import toast, { Toaster } from 'react-hot-toast';
 import { useSelector } from "react-redux";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Checkout() {
     const [passengerCount, setPassengerCount] = useState(1);
@@ -13,6 +15,7 @@ function Checkout() {
     const newId = useSelector((state) => state.newId.id)
     const auth = useSelector((state) => state.auth.user);
     const [allprice, setAllPrice] = useState();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const storedItems = JSON.parse(localStorage.getItem("searchData"));
@@ -42,9 +45,8 @@ function Checkout() {
             ),
         }),
         onSubmit: (values) => {
-            console.log("Submitted:", values.passengers);
             localStorage.setItem("passengersData", JSON.stringify(values.passengers));
-            alert("Passenger data saved!");
+            toast.success('Successfully saved!')
             setPay(true);
             setCompleted(true);
         },
@@ -55,8 +57,7 @@ function Checkout() {
     },[])
 
     const handlePaymentError = (error) => {
-        console.error("Payment Error:", error);
-        alert("An error occurred during the payment process. Please try again.");
+        toast.error("Unexpected error!")
       };
 
       const handlePaymentSuccess = async () => {
@@ -73,7 +74,8 @@ function Checkout() {
                         "state" : true
                     }
             });
-            console.log("Payment Successful:");
+            toast.success('Payment Successful');
+            navigate('/');
         }catch(error){
             console.log(error)
         }
@@ -84,7 +86,7 @@ function Checkout() {
             <div className="font-bold text-[25px] mb-3">
                 Flight Reservation To Torre De Baries, Mallorca
             </div>
-            <div className="w-full flex gap-5">
+            <div className="w-full flex flex-col md:flex-row gap-5">
                 <div className="flex flex-col basis-2/5">
                     <form onSubmit={formik.handleSubmit}>
                         <div className="bg-slate-700 text-white font-bold p-3 rounded-t-md">

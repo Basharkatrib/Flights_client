@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from "react-redux";
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import arrow from '../../assets/images/arrowright.svg';
+import { motion } from "motion/react"
 
 function Banner() {
     const lang = useSelector(state => state.lang.lang);
@@ -34,7 +36,9 @@ function Banner() {
                     <p className='text-[16px] text-neutral-400'>{t('Choose')}</p>
                     <h3 lassName='text-[20px] font-bold'>{t('Return Date')}</h3>
                 </div>
-                <Link to="/mytrips"><img src={button} /></Link>
+                <Link to="/mytrips"><motion.img
+                    animate={{ x: [0, 10, 0] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "linear" }} className='bg-slate-700 p-4 rounded-md' src={arrow} /></Link>
             </div>
         </div>
     );

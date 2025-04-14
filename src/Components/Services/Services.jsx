@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { addSpinner, removeSpinner, selectSpinner } from "../../store/spinnerSlice";
+import Skelaton from "../Skelaton/Skelaton";
 function Services() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -26,8 +27,12 @@ function Services() {
 
 
 
+    // if (loading) {
+    //     return <Skelaton count={1} ok={true} width={30} />;
+    // }
+
     if (loading) {
-        return <div>Loading...</div>;
+        return <Skelaton count={3} ok={true} width={32} />;
     }
 
     return (
@@ -41,7 +46,6 @@ function Services() {
                     </div>
                 ))
             }
-
         </div>
     );
 }

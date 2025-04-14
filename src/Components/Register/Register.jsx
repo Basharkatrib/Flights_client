@@ -1,4 +1,5 @@
 import * as React from 'react';
+import toast, { Toaster } from 'react-hot-toast';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -60,13 +61,14 @@ function Register() {
 
         try {
             const res = await dispatch(RegisterAction(info)).unwrap();
-            console.log("User registered successfully:", res);
             values.name = "";
             values.email = "";
             values.password = "";
             setOpen(false);
+            toast.success('Successfully registeration!')
         } catch (error) {
             console.log("Registration failed:", error);
+            toast.error("Change your email!")
         }
     };
 
@@ -85,7 +87,7 @@ function Register() {
 
     return (
         <React.Fragment>
-            <div className="text-black bg-[#EEEEEE] py-1 px-2 rounded-md cursor-pointer" onClick={() => handleClickOpen()}>
+            <div className="text-black text-center bg-[#EEEEEE] py-1 px-2 rounded-md cursor-pointer" onClick={() => handleClickOpen()}>
                 {t('Register')}
             </div>
             <BootstrapDialog

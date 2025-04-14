@@ -7,6 +7,7 @@ import Footer from "./Components/Footer/Footer";
 import MyTrips from "./Pages/MyTrips";
 import Checkout from "./Pages/Checkout";
 import { useSelector } from "react-redux";
+import toast, { Toaster } from 'react-hot-toast';
 
 
 const App = () => {
@@ -26,7 +27,7 @@ const App = () => {
 
   return (
     <>
-      
+      <Toaster />
         <Navbar ok={ok} handlee={handleClose}/>
         <Routes>
           <Route path="/" element={<Home />} />

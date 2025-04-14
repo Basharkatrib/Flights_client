@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { addSpinner, removeSpinner, selectSpinner } from "../../store/spinnerSlice";
+import Skelaton from "../Skelaton/Skelaton";
 
 function Destinations(){
     const [data, setData] = useState([]);
@@ -29,7 +30,7 @@ function Destinations(){
   
 
    if(loading){
-    return <div>Loading ...</div>
+    return <Skelaton count={4} ok={true} width={24} />
    }
 
     return(

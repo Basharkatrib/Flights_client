@@ -63,8 +63,8 @@ function Trip({data}) {
                 <div>Flight {data.id}</div>
                 <img className={`${open ? "block" : "hidden"} cursor-pointer`} src={exit} onClick={() => setOpen(false)} />
             </div>
-            <div className='flex w-full justify-between'>
-                <div className='flex flex-col basis-[10%] gap-3'>
+            <div className='flex flex-col md:flex-row items-center md:items-start w-full justify-between'>
+                <div className='flex md:flex-col basis-[10%] gap-3'>
                     <div>{data.departure_time}</div>
                     <div>{data.departure_airport}</div>
                 </div>
@@ -74,7 +74,7 @@ function Trip({data}) {
                     <div>10h 20m</div>
                     <div>{data.stops} stop</div>
                 </div>
-                <div className='flex flex-col basis-[10%] items-end gap-3'>
+                <div className='flex md:flex-col basis-[10%] items-end gap-3'>
                     <div>{data.arrival_time}</div>
                     <div>{data.arrival_airport}</div>
                 </div>

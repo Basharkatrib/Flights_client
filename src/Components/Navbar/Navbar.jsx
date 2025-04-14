@@ -15,9 +15,9 @@ import { logout } from "../../store/authSlice";
 
 
 
-function Navbar({ok, handlee}) {
+function Navbar({ ok, handlee }) {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
+    // const [loading, setLoading] = useState(true);
     const [openmen, isOpen] = useState(false);
     const [scroll, setScroll] = useState(false);
     const [accor, setAccor] = useState(false);
@@ -34,19 +34,19 @@ function Navbar({ok, handlee}) {
         setAnchorEl(null);
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_API_KEY}/api/navbars?locale=${lang}`);
-                setData(response.data.data[0]);
-            } catch (error) {
-                console.log(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, [lang]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await axios.get(`${import.meta.env.VITE_API_KEY}/api/navbars?locale=${lang}`);
+    //             setData(response.data.data[0]);
+    //         } catch (error) {
+    //             console.log(error);
+    //         } finally {
+    //             setLoading(false);
+    //         }
+    //     };
+    //     fetchData();
+    // }, [lang]);
 
 
 
@@ -60,13 +60,18 @@ function Navbar({ok, handlee}) {
 
 
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
 
     const handle = () => {
         dispatch(logout());
         handleClose();
+    }
+
+    const handleMenu = () => {
+        isOpen(!openmen);
+        setAccor(false);
     }
 
 
@@ -77,9 +82,9 @@ function Navbar({ok, handlee}) {
                 <img src={logo} alt="Flyza Airways Logo" />
             </Link>
             <div className="hidden md:flex items-center gap-4 text-white">
-                {data?.menu_items?.map((item) => (
-                    <a key={item.id} href={item.src}>{item.title}</a>
-                ))}
+                <a href="#">My Trips</a>
+                <a href="#">Help & Support</a>
+
                 {
                     token ? <div>
                         <div
@@ -110,7 +115,7 @@ function Navbar({ok, handlee}) {
                             <MenuItem onClick={handleClose}>Profile</MenuItem>
                             <MenuItem onClick={() => handle()} >Logout</MenuItem>
                         </Menu>
-                    </div> : <div className="flex gap-4"><Register /> <Login ok={ok} handlee={handlee}/></div>
+                    </div> : <div className="flex gap-4"><Register /> <Login ok={ok} handlee={handlee} /></div>
 
                 }
 
@@ -120,27 +125,24 @@ function Navbar({ok, handlee}) {
                 </div>
             </div>
 
-            <div onClick={() => isOpen(!openmen)} className="flex h-10 flex-col gap-[6px] md:hidden p-2 rounded-md">
+            <div onClick={() => handleMenu()} className="flex h-10 flex-col gap-[6px] md:hidden p-2 rounded-md">
                 <div className={`bg-white w-7 h-[2px] transition-all duration-500 ${openmen ? "transform translate-y-1 rotate-[45deg]" : "rotate-0"}`} />
                 <div className={`bg-white w-7 h-[2px] transition-all duration-300 ${openmen ? "hidden" : "block"}`} />
                 <div className={`bg-white w-7 h-[2px] transition-all duration-500 ${openmen ? "transform -translate-y-[3px] rotate-[-45deg]" : "rotate-0"}`} />
             </div>
 
             <div className={`flex flex-col text-white md:hidden items-center gap-4 p-3 absolute bg-slate-700 w-[90%] h-auto top-20 left-1/2 ${openmen ? "transform -translate-x-1/2" : "transform translate-x-full"} transition-all duration-500 rounded-xl shadow-3`}>
-                {data?.menu_items?.map((item) => (
-                    <a key={item.id} href={item.src}>{item.title}</a>
-                ))}
+                <a href="#">My Trips</a>
+                <a href="#">Help & Support</a>
                 {
                     token ? <div className="w-[50%]">
-                        <div onClick={() => setAccor(!accor)}>Welcome {user.username} !!</div>
+                        <div className="text-center" onClick={() => setAccor(!accor)}>Welcome {user.username} !!</div>
                         <div className={`${accor ? "max-h-screen" : "max-h-0"} bg-slate-50 transition-all duration-500`}>
                             <div className={`${accor ? "opacity-100" : "opacity-0"} transition-all duration-500 text-black text-center`} onClick={() => dispatch(logout())}>Logout</div>
                         </div>
 
                     </div> : <div className="flex flex-col gap-4"><Register /> <Login /></div>
-
                 }
-
                 <div onClick={() => dispatch(setLang(lang === "en" ? "ar" : "en"))}>
                     {lang === "en" ? "ar" : "en"}
                 </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { addSpinner, removeSpinner, selectSpinner } from "../../store/spinnerSlice";
+import Skelaton from "../Skelaton/Skelaton";
 
 function Download() {
 
@@ -28,7 +29,7 @@ function Download() {
 
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Skelaton count={1} ok={false} width={100} />;
     }
 
 

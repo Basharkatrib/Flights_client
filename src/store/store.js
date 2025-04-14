@@ -7,6 +7,7 @@ import authReducer from "./authSlice";
 import flightSelectedReducer from "./flightSelectedSlice";
 import spinnerReducer from "./spinnerSlice";
 import newIdReducer from './newIdSlice';
+import screenWidthReducer from "./screenWidthSlice";
 
 const persistConfig = {
   key: "root",
@@ -20,7 +21,7 @@ const rootReducer = combineReducers({
   flightselect: flightSelectedReducer,
   newId : newIdReducer,
   spinner: spinnerReducer,
- 
+  screenWidth: screenWidthReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
