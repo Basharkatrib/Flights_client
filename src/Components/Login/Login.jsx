@@ -31,6 +31,8 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 function Login({ok, handlee}) {
 
     const [open, setOpen] = React.useState(false);
+    const [dirRight, setDirRight] = useState();
+    const [dirLeft, setDirLeft] = useState();
     const lang = useSelector(state => state.lang.lang);
     const [loading, setLoading] = useState(false);
     const { t, i18n } = useTranslation();
@@ -78,6 +80,16 @@ function Login({ok, handlee}) {
             onSubmit: handleLogin,
           });
 
+             useEffect(()=>{
+                  if(lang === "ar"){
+                      setDirLeft(8);
+                      setDirRight(null)
+                  }else{
+                      setDirLeft(null);
+                      setDirRight(8);
+                  }
+              },[lang])
+
     return (
         <React.Fragment>
             <div className="text-black text-center bg-[#EEEEEE] py-1 px-2 rounded-md cursor-pointer" onClick={() => handleClickOpen()}>
@@ -89,6 +101,7 @@ function Login({ok, handlee}) {
                 open={open || ok}
                 fullWidth
                 maxWidth="sm"
+                className={`${lang === "ar"? "text-right" : "text-left"}`}
             >
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
                     {t('Welcome Back')}
@@ -98,7 +111,8 @@ function Login({ok, handlee}) {
                     onClick={handleClose}
                     sx={(theme) => ({
                         position: 'absolute',
-                        right: 8,
+                        right: dirRight,
+                        left: dirLeft,
                         top: 8,
                         color: theme.palette.grey[500],
                     })}
@@ -110,8 +124,8 @@ function Login({ok, handlee}) {
                     <form className='w-full flex flex-col gap-3' onSubmit={formik.handleSubmit}>
                         <div className='w-full'>
                         <input
-                            className='border-2 w-full p-1 border-gray-300 rounded-lg outline-none'
-                            placeholder='Enter Your Email'
+                            className={`border-2 w-full p-1 border-gray-300 rounded-lg outline-none ${lang === "ar" ? "text-right" : "text-left"}`}
+                            placeholder={t('Enter Your Email')}
                             name='email'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
@@ -119,20 +133,20 @@ function Login({ok, handlee}) {
                         />
                         
                         {formik.touched.email && formik.errors.email ? (
-                            <div className='text-red-700'>{formik.errors.email}</div>
+                            <div className='text-red-700'>{t(formik.errors.email)}</div>
                         ) : null}
                         </div>
                         <div className='w-full'>
                         <input
-                            className='border-2 w-full p-1 border-gray-300 rounded-lg outline-none'
-                            placeholder='Enter Your Password'
+                            className={`border-2 w-full p-1 border-gray-300 rounded-lg outline-none ${lang === "ar" ? "text-right" : "text-left"}`}
+                            placeholder={t('Enter Your Password')}
                             name='password'
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             value={formik.values.password}
                         />
                         {formik.touched.password && formik.errors.password ? (
-                            <div className='text-red-700'>{formik.errors.password}</div>
+                            <div className='text-red-700'>{t(formik.errors.password)}</div>
                         ) : null}
                         </div>
                         <button type='submit' className='bg-slate-700 text-white rounded-md p-1'>{loading ? 'Loading...' : t('Log In')}</button>

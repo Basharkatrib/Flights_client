@@ -32,6 +32,9 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 function Register() {
 
     const [open, setOpen] = useState(false);
+    const [dirRight, setDirRight] = useState();
+    const [dirLeft, setDirLeft] = useState();
+
     const lang = useSelector(state => state.lang.lang);
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
@@ -82,6 +85,16 @@ function Register() {
         onSubmit: handleRegister,
     });
 
+    useEffect(()=>{
+        if(lang === "ar"){
+            setDirLeft(8);
+            setDirRight(null)
+        }else{
+            setDirLeft(null);
+            setDirRight(8);
+        }
+    },[lang])
+
 
 
 
@@ -96,6 +109,7 @@ function Register() {
                 open={open}
                 fullWidth
                 maxWidth="sm"
+                className={`${lang === "ar"? "text-right" : "text-left"}`}
             >
                 <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
                     {t('Create An Account')}
@@ -105,7 +119,8 @@ function Register() {
                     onClick={handleClose}
                     sx={(theme) => ({
                         position: 'absolute',
-                        right: 8,
+                        right: dirRight,
+                        left: dirLeft,
                         top: 8,
                         color: theme.palette.grey[500],
                     })}
@@ -114,10 +129,10 @@ function Register() {
                 </IconButton>
                 <hr />
                 <div className='py-5 px-4'>
-                    <form className='w-full flex flex-col gap-3' onSubmit={formik.handleSubmit}>
+                    <form className={`w-full flex flex-col gap-3 `} onSubmit={formik.handleSubmit}>
                         <div className='w-full'>
                             <input
-                                className='w-full border-2 p-1 border-gray-300 rounded-lg outline-none'
+                                className={`w-full border-2 p-1 border-gray-300 rounded-lg outline-none ${lang === "ar" ? "text-right" : "text-left"}`}
                                 placeholder={t('Enter Your Name')}
                                 name='name'
                                 onChange={formik.handleChange}
@@ -125,12 +140,12 @@ function Register() {
                                 value={formik.values.name}
                             />
                             {formik.touched.name && formik.errors.name ? (
-                                <div className='text-red-700'>{formik.errors.name}</div>
+                                <div className={`text-red-700 ${lang === "ar" ? "text-right" : "text-left"}`}>{t(formik.errors.name)}</div>
                             ) : null}
                         </div>
                         <div className='w-full'>
                             <input
-                                className='border-2 w-full p-1 border-gray-300 rounded-lg outline-none'
+                                className={`border-2 w-full p-1 border-gray-300 rounded-lg outline-none ${lang === "ar" ? "text-right" : "text-left"}`}
                                 placeholder={t('Enter Your Email')}
                                 name='email'
                                 onChange={formik.handleChange}
@@ -139,20 +154,20 @@ function Register() {
                             />
 
                             {formik.touched.email && formik.errors.email ? (
-                                <div className='text-red-700'>{formik.errors.email}</div>
+                                <div className={`text-red-700 ${lang === "ar" ? "text-right" : "text-left"}`}>{t(formik.errors.email)}</div>
                             ) : null}
                         </div>
                         <div className='w-full'>
                             <input
-                                className='border-2 w-full p-1 border-gray-300 rounded-lg outline-none'
-                                placeholder='Enter Your Password'
+                                className={`border-2 w-full p-1 border-gray-300 rounded-lg outline-none ${lang === "ar" ? "text-right" : "text-left"}`}
+                                placeholder={t('Enter Your Password')}
                                 name='password'
                                 onChange={formik.handleChange}
                                 onBlur={formik.handleBlur}
                                 value={formik.values.password}
                             />
                             {formik.touched.password && formik.errors.password ? (
-                                <div className='text-red-700'>{formik.errors.password}</div>
+                                <div className={`text-red-700 ${lang === "ar" ? "text-right" : "text-left"}`}>{t(formik.errors.password)}</div>
                             ) : null}
                         </div>
                         <button type='submit' className='bg-slate-700 text-white rounded-md py-1'>{t('Register')}</button>

@@ -1,37 +1,47 @@
 import { useEffect, useState } from 'react';
 import Icon from '../../assets/images/Icon.svg';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 function FormDetails({handle , handleSearch}) {
 
     const [data, setData] = useState({});
+    const lang = useSelector(state => state.lang.lang);
+    const { t, i18n } = useTranslation();
+    
 
     const handleData = (data) => {
         handleSearch(data);
+        handle();
         localStorage.setItem('searchData', JSON.stringify(data));
     }
 
+    useEffect(() => {
+            i18n.changeLanguage(lang);
+        }, [lang]);
+
     return (
-        <div className="w-full bg-[#EEEEEE] flex flex-col justify-start p-4 gap-5 h-full">
-            <img className='w-6 cursor-pointer' src={Icon} onClick={()=> {handle()}}/>
-            <div className='font-bold text-[30px]'>Flight Details</div>
+        <div className={`w-full ${lang === "ar"? 'text-right' : "text-left"} bg-[#EEEEEE] flex flex-col justify-start p-4 gap-5 h-full`}>
+            <div className={`w-full flex ${lang === "ar"? 'justify-end' : 'justify-start'}`}><img className={`w-6 ${lang === "ar"? 'transform rotate-[180deg]' : ''} cursor-pointer flex`} src={Icon} onClick={()=> {handle()}}/></div>
+            <div className='font-bold text-[30px]'>{t('Flight Details')}</div>
             <form className='flex flex-col gap-3'>
                 <div className='flex flex-col'>
-                    <label className='font-bold'>From</label>
-                    <input className='outline-none border-none rounded-md p-1' type='text' value={data.from} onChange={ e => { setData( prev => ({...prev, from:e.target.value}))}} />
+                    <label className='font-bold'>{t('From')}</label>
+                    <input className={`outline-none ${lang === "ar"? 'text-right' : 'text-left'} border-none rounded-md p-1`} type='text' value={data.from} onChange={ e => { setData( prev => ({...prev, from:e.target.value}))}} />
                 </div>
                 <div className='flex flex-col'>
-                    <label className='font-bold'>To</label>
-                    <input className='outline-none border-none rounded-md p-1' type='text' value={data.to} onChange={ e => { setData( prev => ({...prev, to:e.target.value}))}} />
+                    <label className='font-bold'>{t('To')}</label>
+                    <input className={`outline-none ${lang === "ar"? 'text-right' : 'text-left'} border-none rounded-md p-1`} type='text' value={data.to} onChange={ e => { setData( prev => ({...prev, to:e.target.value}))}} />
                 </div>
                 <div className='flex flex-col'>
-                    <label className='font-bold'>Departure Date</label>
-                    <input className='outline-none border-none rounded-md p-1' type='text' value={data.departure_date} onChange={ e => { setData( prev => ({...prev, departure_date:e.target.value}))}} />
+                    <label className='font-bold'>{t('Departure Date')}</label>
+                    <input className={`outline-none ${lang === "ar"? 'text-right' : 'text-left'} border-none rounded-md p-1`} type='text' value={data.departure_date} onChange={ e => { setData( prev => ({...prev, departure_date:e.target.value}))}} />
                 </div>
                 <div className='flex flex-col'>
-                    <label className='font-bold'>Passengers</label>
-                    <input className='outline-none border-none rounded-md p-1' type='text' value={data.passengers} onChange={ e => { setData( prev => ({...prev, passengers:e.target.value}))}} />
+                    <label className='font-bold'>{t('Number of travelers')}</label>
+                    <input className={`outline-none ${lang === "ar"? 'text-right' : 'text-left'} border-none rounded-md p-1`} type='text' value={data.passengers} onChange={ e => { setData( prev => ({...prev, passengers:e.target.value}))}} />
                 </div>
             </form>
-            <button onClick={() => { handleData(data) }} className='bg-slate-700 text-white p-1 rounded-md font-bold'>Select Flight</button>
+            <button onClick={() => { handleData(data) }} className='bg-slate-700 text-white p-1 rounded-md font-bold'>{t('Select Flight')}</button>
 
             <div className='w-full flex flex-col gap-2'>
                 <div className='flex flex-col gap-3'>

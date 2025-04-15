@@ -1,5 +1,6 @@
 import exit from '../../assets/images/x.svg';
 import arrow from '../../assets/images/arrow.svg';
+import { useTranslation } from 'react-i18next';
 import { setSelectedFlight, deleteSelectedFlight} from '../../store/flightSelectedSlice';
 import { setId }  from '../../store/newIdSlice';
 import { useEffect, useState } from 'react';
@@ -12,11 +13,14 @@ function Trip({data}) {
 
     const [open, setOpen] = useState(false);
     const flight = useSelector(state => state.flightselect);
+    const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
     const newIdd = useSelector((state) => state.newId.id);
     const [cancel, setCancel] = useState(false);
     const [seats, setSeats] = useState();
     const [newId, setNewId] = useState();
+    const lang = useSelector(state => state.lang.lang);
+    
 
 
     const selectFlight = async (id) =>{
@@ -44,11 +48,9 @@ function Trip({data}) {
         setCancel(!cancel);
     }
 
-
-    useEffect(()=>{
-        console.log(newIdd)
-
-    },[newId])
+    useEffect(() => {
+            i18n.changeLanguage(lang);
+        }, [lang]);
 
 
   
@@ -59,11 +61,11 @@ function Trip({data}) {
     return (
         <div className="flex flex-col gap-5 w-full mt-5 bg-[#EEEEEE] p-2 mb-5 rounded-md basis-1/2">
         
-            <div className='flex justify-between w-full mb-3'>
-                <div>Flight {data.id}</div>
+            <div className={`${lang === "ar"? 'flex flex-row-reverse' : 'flex '} justify-between w-full mb-3`}>
+                <div>{t('Flight')} {data.id}</div>
                 <img className={`${open ? "block" : "hidden"} cursor-pointer`} src={exit} onClick={() => setOpen(false)} />
             </div>
-            <div className='flex flex-col md:flex-row items-center md:items-start w-full justify-between'>
+            <div className={`flex flex-col ${lang === "ar" ? 'md:flex-row-reverse' : 'md:flex-row'} items-center md:items-start w-full justify-between`}>
                 <div className='flex md:flex-col basis-[10%] gap-3'>
                     <div>{data.departure_time}</div>
                     <div>{data.departure_airport}</div>
@@ -79,13 +81,13 @@ function Trip({data}) {
                     <div>{data.arrival_airport}</div>
                 </div>
             </div>
-            <div className={`${open ? "hidden" : "block"} w-full flex justify-end`}>
+            <div className={`${open ? "hidden" : "block"} w-full flex ${lang === "en"? 'justify-end' : 'justify-start'}`}>
                 <img className='w-6 flex justify-end cursor-pointer' onClick={() => setOpen(true)} src={arrow} />
             </div>
 
             <div className={`${open ? "max-h-screen" : "max-h-0"} transition-all duration-500 w-full flex flex-col gap-5`}>
                 <div className={`${open ? "opacity-100" : "opacity-0"} flex justify-end transition-all duration-500`}>
-                    <Link to="/checkout"> <div className={`${cancel ? "hidden" : "block"} bg-[#334155] p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => selectFlight(data.documentId)}>Select Flight & Go To Checkout</div></Link>
+                    <Link to="/checkout"> <div className={`${cancel ? "hidden" : "block"} bg-[#334155] p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => selectFlight(data.documentId)}>{t('Select Flight & Go To Checkout')}</div></Link>
                     <div className={`${cancel ? "block" : "hidden"} bg-red-800 p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => deleteFlight()}>Cancel</div>
                 </div>
                 <div className={`font-bold text-[24px] ${open ? "opacity-100" : "opacity-0"} transition-all duration-500`}>{data.departure_airport} - {data.arrival_airport}, {data.date}</div>

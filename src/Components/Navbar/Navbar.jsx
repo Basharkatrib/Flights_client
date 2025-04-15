@@ -12,6 +12,7 @@ import { setLang } from "../../store/langSlice";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import { logout } from "../../store/authSlice";
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -24,9 +25,12 @@ function Navbar({ ok, handlee }) {
     const lang = useSelector((state) => state.lang.lang);
     const token = useSelector((state) => state.auth.token);
     const user = useSelector((state) => state.auth.user);
+    const { t, i18n } = useTranslation();
     const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
+
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -49,6 +53,9 @@ function Navbar({ ok, handlee }) {
     // }, [lang]);
 
 
+    useEffect(() => {
+        i18n.changeLanguage(lang);
+    }, [lang]);
 
     useEffect(() => {
         const changeColor = () => {
@@ -77,25 +84,29 @@ function Navbar({ ok, handlee }) {
 
 
     return (
-        <nav className={`w-full z-50 fixed px-4 ${scroll ? "bg-slate-700" : "bg-none"} ${window.location.pathname !== '/' ? "bg-slate-700" : ""} py-4 flex justify-between items-center shadow-3 transition-all duration-300`}>
+        <nav className={`w-full z-50 fixed px-4 ${scroll ? "bg-slate-700" : "bg-none"} ${window.location.pathname !== '/' ? "bg-slate-700" : ""} py-4 flex ${lang === "ar" ? "flex-row-reverse" : "flex-row"} justify-between items-center shadow-3 transition-all duration-300`}>
             <Link to="/" className="w-52">
                 <img src={logo} alt="Flyza Airways Logo" />
             </Link>
-            <div className="hidden md:flex items-center gap-4 text-white">
-                <a href="#">My Trips</a>
-                <a href="#">Help & Support</a>
+            <div className={`hidden md:flex ${lang === "ar" ? "flex-row-reverse" : "flex-row"} items-center gap-4 text-white`}>
+                <a href="#">{t('My Trips')}</a>
+                <a href="#">{t('Help & Support')}</a>
 
                 {
                     token ? <div>
                         <div
-                            className="font-bold cursor-pointer"
+                            className="font-bold flex gap-2 cursor-pointer text-left"
                             id="demo-positioned-button"
                             aria-controls={open ? 'demo-positioned-menu' : undefined}
                             aria-haspopup="true"
                             aria-expanded={open ? 'true' : undefined}
                             onClick={handleClick}
                         >
-                            Welcome {user.username} !!
+                            {lang === "en"
+                                ? `${t('Welcome')} ${user.username} !!`
+                                : `!! ${t('Welcome')} ${user.username}`}
+                                <svg className={`w-3 transition-all duration-500 ${open ? 'transform rotate-180' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="#ffffff" d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>
+
                         </div>
                         <Menu
                             id="demo-positioned-menu"
@@ -112,8 +123,8 @@ function Navbar({ ok, handlee }) {
                                 horizontal: 'left',
                             }}
                         >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={() => handle()} >Logout</MenuItem>
+                            <MenuItem onClick={handleClose}>{t('Profile')}</MenuItem>
+                            <MenuItem onClick={() => handle()} >{t('Logout')}</MenuItem>
                         </Menu>
                     </div> : <div className="flex gap-4"><Register /> <Login ok={ok} handlee={handlee} /></div>
 
@@ -125,25 +136,29 @@ function Navbar({ ok, handlee }) {
                 </div>
             </div>
 
-            <div onClick={() => handleMenu()} className="flex h-10 flex-col gap-[6px] md:hidden p-2 rounded-md">
+            <div onClick={() => handleMenu()} className="flex h-10 flex-col cursor-pointer gap-[6px] md:hidden p-2 rounded-md">
                 <div className={`bg-white w-7 h-[2px] transition-all duration-500 ${openmen ? "transform translate-y-1 rotate-[45deg]" : "rotate-0"}`} />
                 <div className={`bg-white w-7 h-[2px] transition-all duration-300 ${openmen ? "hidden" : "block"}`} />
                 <div className={`bg-white w-7 h-[2px] transition-all duration-500 ${openmen ? "transform -translate-y-[3px] rotate-[-45deg]" : "rotate-0"}`} />
             </div>
 
             <div className={`flex flex-col text-white md:hidden items-center gap-4 p-3 absolute bg-slate-700 w-[90%] h-auto top-20 left-1/2 ${openmen ? "transform -translate-x-1/2" : "transform translate-x-full"} transition-all duration-500 rounded-xl shadow-3`}>
-                <a href="#">My Trips</a>
-                <a href="#">Help & Support</a>
+                <a href="#">{t('My Trips')}</a>
+                <a href="#">{t('Help & Support')}</a>
                 {
                     token ? <div className="w-[50%]">
-                        <div className="text-center" onClick={() => setAccor(!accor)}>Welcome {user.username} !!</div>
+                        <div className="text-center cursor-pointer flex gap-2" onClick={() => setAccor(!accor)}> {lang === "en"
+                            ? `${t('Welcome')} ${user.username} !!`
+                            : `!! ${t('Welcome')} ${user.username}`}
+                            <svg className={`w-3 transition-all duration-500 ${accor ? 'transform rotate-180' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="#ffffff" d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>
+                            </div>
                         <div className={`${accor ? "max-h-screen" : "max-h-0"} bg-slate-50 transition-all duration-500`}>
-                            <div className={`${accor ? "opacity-100" : "opacity-0"} transition-all duration-500 text-black text-center`} onClick={() => dispatch(logout())}>Logout</div>
+                            <div className={`${accor ? "opacity-100 block" : "opacity-0 hidden"} transition-all duration-500 text-black text-center`} onClick={() => dispatch(logout())}>{t('Logout')}</div>
                         </div>
 
                     </div> : <div className="flex flex-col gap-4"><Register /> <Login /></div>
                 }
-                <div onClick={() => dispatch(setLang(lang === "en" ? "ar" : "en"))}>
+                <div className="cursor-pointer" onClick={() => dispatch(setLang(lang === "en" ? "ar" : "en"))}>
                     {lang === "en" ? "ar" : "en"}
                 </div>
             </div>

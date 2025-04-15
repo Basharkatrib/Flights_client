@@ -10,6 +10,8 @@ function MyTrips() {
     const [search, setsearch] = useState();
     const spinner = useSelector(state => state.spinner.spinnerCount);
     const [loading, setLoading] = useState(true);
+    const lang = useSelector(state => state.lang.lang);
+
 
     const handleStart = () => {
         setstart(!start)
@@ -37,7 +39,7 @@ function MyTrips() {
       if (loading) return <Spinner />
 
     return (
-        <div className="w-full flex pt-16 md:pt-14">
+        <div className={`w-full flex ${lang === "ar" ? 'flex-row-reverse' : ''} pt-16 md:pt-14`}>
             <div className={`${start ? 'w-full block' : 'hidden'} md:basis-1/4 md:block md:opacity-100`}>
                 <FormDetails handle = {handleStart} handleSearch = {handleSearch}/>
             </div>

@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useDispatch, useSelector } from "react-redux";
 import { addSpinner, removeSpinner, selectSpinner } from "../../store/spinnerSlice";
 import Skelaton from "../Skelaton/Skelaton";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 function Download() {
 
@@ -27,6 +29,12 @@ function Download() {
         fetchData();
     }, [lang , dispatch]);
 
+      useEffect(() => {
+                AOS.init({
+                    duration : 3000
+                  });
+              }, []);
+
 
     if (loading) {
         return <Skelaton count={1} ok={false} width={100} />;
@@ -36,8 +44,8 @@ function Download() {
 
 
     return (
-        <div className="w-full p-4 h-[300px] md:h-auto mb-8">
-            <div className="w-full h-full relative">
+        <div  className="w-full p-4 h-[300px] md:h-auto mb-8">
+            <div data-aos="flip-right" className="w-full h-full relative">
                 {data && <img className="w-full h-full" src={data.image.url} />}
                 <div className={`absolute text-white z-30 top-3 md:top-1/4 flex flex-col   ${lang === "en" ? "left-4 items-start" : "right-4 text-right items-end"}  w-[300px] md:w-[500px]`}>
                    <div className="text-xl md:text-2xl xl:text-5xl font-bold">{data.title}</div>

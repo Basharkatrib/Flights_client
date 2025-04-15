@@ -30,12 +30,12 @@ function Footer(){
     }
     
     return(
-        <div className="w-full text-center px-4 py-8 gap-5 flex flex-wrap justify-center  md:justify-between border-t-2 border-neutral-400 ">
+        <div className={`w-full text-center px-4 py-8 gap-5 flex flex-wrap justify-center ${lang === "ar" ? "items-end" : "text-left"} md:items-start  md:justify-between border-t-2 border-neutral-400 `}>
         {
                 data && data.footer && data.footer.map((item, index) => (
-                    <div key={index} className="w-full flex flex-col basis-[100%] md:basis-[48%] xl:basis-[23%] ">
+                    <div key={index} className={`${lang === "ar" ? "items-end" : "text-left"} w-full flex flex-col basis-[100%] md:basis-[48%] xl:basis-[23%] `}>
                         <div className="text-[24px] font-bold text-slate-700 text-left">{item.title}</div>
-                        <div className="flex flex-col h-full text-left">
+                        <div className={`flex flex-col h-full text-left ${lang === "ar" ? "items-end" : "text-left"}`}>
                         {
                             item.group.map((link,index)=>(
                                 <div key={index}>{link.title}</div>
