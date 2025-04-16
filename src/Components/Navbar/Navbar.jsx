@@ -145,7 +145,7 @@ function Navbar({ ok, handlee }) {
                 <a className="text-[17px]" href="#">{t('My Trips')}</a>
                 <a className="text-[17px]" href="#">{t('Help & Support')}</a>
                 {
-                    token ? <div className="w-[50%]">
+                    token ? <div className="w-full">
                         <div className="text-center cursor-pointer flex justify-center gap-2 text-[17px]" onClick={() => setAccor(!accor)}> {lang === "en"
                             ? `${t('Welcome')} ${user.username} !!`
                             : `!! ${t('Welcome')} ${user.username}`}
