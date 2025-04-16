@@ -8,6 +8,7 @@ import flightSelectedReducer from "./flightSelectedSlice";
 import spinnerReducer from "./spinnerSlice";
 import newIdReducer from './newIdSlice';
 import screenWidthReducer from "./screenWidthSlice";
+import googleLoadReducer from "./handleGoogleSlice";
 
 const persistConfig = {
   key: "root",
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   flightselect: flightSelectedReducer,
   newId : newIdReducer,
   spinner: spinnerReducer,
-  screenWidth: screenWidthReducer
+  screenWidth: screenWidthReducer,
+  googleLoad: googleLoadReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

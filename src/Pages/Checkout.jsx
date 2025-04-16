@@ -95,7 +95,7 @@ function Checkout() {
             </div>
             <div className={`w-full flex flex-col ${lang === "ar" ? 'md:flex-row-reverse' : 'md:flex-row'}  gap-5`}>
                 <div className="flex flex-col basis-2/5">
-                    <form onSubmit={formik.handleSubmit}>
+                    <form onSubmit={formik.handleSubmit} className="w-full">
                         <div className="bg-slate-700 text-white font-bold p-3 rounded-t-md">
                             {t('Passengers Details')}
                         </div>
@@ -120,7 +120,7 @@ function Checkout() {
                                     <input
                                         name={`passengers[${index}].date`}
                                         type="date"
-                                        className={`p-1 ${lang === "ar" ? 'text-right' : 'text-left'} outline-none border border-blue-950 rounded-md`}
+                                        className={`p-1 ${lang === "ar" ? 'text-right' : 'text-left'} w-full outline-none border border-blue-950 rounded-md`}
                                         value={formik.values.passengers[index].date}
                                         onChange={formik.handleChange}
                                     />

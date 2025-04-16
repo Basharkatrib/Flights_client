@@ -45,7 +45,6 @@ function Media({count ,ok ,width}) {
     const [skeletonWidth, setskeletonWidth] = useState();
 
     useEffect(()=>{
-        console.log(screen)
         if(screen > 768){
             setskeletonWidth(width)
         }else{

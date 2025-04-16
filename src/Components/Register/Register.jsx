@@ -36,6 +36,7 @@ function Register() {
     const [dirLeft, setDirLeft] = useState();
 
     const lang = useSelector(state => state.lang.lang);
+
     const dispatch = useDispatch();
     const { t, i18n } = useTranslation();
 

@@ -1,14 +1,16 @@
 import exit from '../../assets/images/x.svg';
 import arrow from '../../assets/images/arrow.svg';
 import { useTranslation } from 'react-i18next';
-import { setSelectedFlight, deleteSelectedFlight} from '../../store/flightSelectedSlice';
-import { setId }  from '../../store/newIdSlice';
+import { setSelectedFlight, deleteSelectedFlight } from '../../store/flightSelectedSlice';
+import { setId } from '../../store/newIdSlice';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { motion } from "motion/react";
 
-function Trip({data}) {
+
+function Trip({ data }) {
 
 
     const [open, setOpen] = useState(false);
@@ -20,23 +22,23 @@ function Trip({data}) {
     const [seats, setSeats] = useState();
     const [newId, setNewId] = useState();
     const lang = useSelector(state => state.lang.lang);
-    
 
 
-    const selectFlight = async (id) =>{
-        try{
+
+    const selectFlight = async (id) => {
+        try {
             const res = await axios.get(`${import.meta.env.VITE_API_KEY}/api/flights/${id}`);
-            if(res.data.data.available_seats > 1){
-                const update = await axios.put(`${import.meta.env.VITE_API_KEY}/api/flights/${id}`,{ 
+            if (res.data.data.available_seats > 1) {
+                const update = await axios.put(`${import.meta.env.VITE_API_KEY}/api/flights/${id}`, {
                     "data": {
-                      "available_seats": res.data.data.available_seats -1
+                        "available_seats": res.data.data.available_seats - 1
                     }
-                  });
-                  console.log(update.data.data.id)
-                  dispatch(setId(update.data.data.id))
+                });
+                console.log(update.data.data.id)
+                dispatch(setId(update.data.data.id))
             }
-            
-        }catch(error){
+
+        } catch (error) {
             console.log(error)
         }
         dispatch(setSelectedFlight(data));
@@ -44,24 +46,24 @@ function Trip({data}) {
     };
 
     const deleteFlight = () => {
-        dispatch(deleteSelectedFlight({ id: data.id })); 
+        dispatch(deleteSelectedFlight({ id: data.id }));
         setCancel(!cancel);
     }
 
     useEffect(() => {
-            i18n.changeLanguage(lang);
-        }, [lang]);
-
-
-  
+        i18n.changeLanguage(lang);
+    }, [lang]);
 
 
 
-    
+
+
+
+
     return (
-        <div className="flex flex-col gap-5 w-full mt-5 bg-[#EEEEEE] p-2 mb-5 rounded-md basis-1/2">
-        
-            <div className={`${lang === "ar"? 'flex flex-row-reverse' : 'flex '} justify-between w-full mb-3`}>
+        <motion.div animate={{ opacity: [0, 100] }}
+            transition={{ duration: 2, ease: "linear" }} className="flex flex-col gap-5 w-full mt-5 bg-[#EEEEEE] p-2 mb-5 rounded-md basis-1/2">
+            <div className={`${lang === "ar" ? 'flex flex-row-reverse' : 'flex '} justify-between w-full mb-3`}>
                 <div>{t('Flight')} {data.id}</div>
                 <img className={`${open ? "block" : "hidden"} cursor-pointer`} src={exit} onClick={() => setOpen(false)} />
             </div>
@@ -81,7 +83,7 @@ function Trip({data}) {
                     <div>{data.arrival_airport}</div>
                 </div>
             </div>
-            <div className={`${open ? "hidden" : "block"} w-full flex ${lang === "en"? 'justify-end' : 'justify-start'}`}>
+            <div className={`${open ? "hidden" : "block"} w-full flex ${lang === "en" ? 'justify-end' : 'justify-start'}`}>
                 <img className='w-6 flex justify-end cursor-pointer' onClick={() => setOpen(true)} src={arrow} />
             </div>
 
@@ -133,7 +135,7 @@ function Trip({data}) {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 }
 export default Trip;

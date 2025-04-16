@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addSpinner, removeSpinner, selectSpinner } from "../../store/spinnerSlice";
 import Skelaton from '../Skelaton/Skelaton';
 
+
 function Trips({ handle, search }) {
 
 
@@ -37,7 +38,7 @@ function Trips({ handle, search }) {
     }, [lang]);
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(2);
+    const [itemsPerPage, setItemsPerPage] = useState(3);
 
     const totalPages = Math.ceil(data.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
@@ -48,9 +49,7 @@ function Trips({ handle, search }) {
         setCurrentPage(value);
     };
 
-    useEffect(() => {
-        console.log(data);
-    }, [data])
+  
 
     useEffect(() => {
         i18n.changeLanguage(lang);
@@ -98,7 +97,7 @@ function Trips({ handle, search }) {
                             ))
                     ) : (
                         currentItems.map(item => (
-                            <div key={item.id}>
+                            <div  key={item.id}>
                                 <Trip data={item} />
                             </div>
                         ))

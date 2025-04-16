@@ -22,20 +22,22 @@ const App = () => {
     return token !== null ? children : navigate('/');
   }
 
-  const handleClose = ()=>{
+  const handleClose = () => {
     setOk(false);
   }
+
+
 
   return (
     <>
       <Toaster />
-        <Navbar ok={ok} handlee={handleClose}/>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/mytrips" element={<RequireAuth><MyTrips /></RequireAuth>} />
-          <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
-        </Routes>
-        <Footer />
+      <Navbar ok={ok} handlee={handleClose} />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/mytrips" element={<RequireAuth><MyTrips /></RequireAuth>} />
+        <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
+      </Routes>
+      <Footer />
 
     </>
   );

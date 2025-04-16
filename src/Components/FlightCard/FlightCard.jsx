@@ -8,7 +8,7 @@ function FlightCard({ item }) {
 
     useEffect(() => {
         AOS.init({
-            duration : 2000
+            duration : 3000
           });
       }, []);
 
