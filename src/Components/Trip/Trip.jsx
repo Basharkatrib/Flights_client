@@ -62,76 +62,78 @@ function Trip({ data }) {
 
     return (
         <motion.div animate={{ opacity: [0, 100] }}
-            transition={{ duration: 2, ease: "linear" }} className="flex flex-col gap-5 w-full mt-5 bg-[#EEEEEE] p-2 mb-5 rounded-md basis-1/2">
-            <div className={`${lang === "ar" ? 'flex flex-row-reverse' : 'flex '} justify-between w-full mb-3`}>
-                <div>{t('Flight')} {data.id}</div>
+            transition={{ duration: 0.8, ease: "easeOut" }} className="flex flex-col gap-4 w-full mt-5 bg-white border border-slate-200 p-4 mb-5 rounded-xl shadow-sm">
+            <div className={`${lang === "ar" ? 'flex flex-row-reverse' : 'flex '} justify-between w-full mb-1`}>
+                <div className="flex items-center gap-2">
+                    <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700">{t('Flight')} #{data.id}</span>
+                    <span className="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">{data.stops === 0 ? 'Direct' : `${data.stops} stop`}</span>
+                </div>
                 <img className={`${open ? "block" : "hidden"} cursor-pointer`} src={exit} onClick={() => setOpen(false)} />
             </div>
             <div className={`flex flex-col ${lang === "ar" ? 'md:flex-row-reverse' : 'md:flex-row'} items-center md:items-start w-full justify-between`}>
-                <div className='flex md:flex-col basis-[10%] gap-3'>
-                    <div>{data.departure_time}</div>
-                    <div>{data.departure_airport}</div>
+                <div className='flex md:flex-col basis-[15%] gap-1 text-slate-700'>
+                    <div className="font-semibold text-lg">{data.departure_time}</div>
+                    <div className="text-sm">{data.departure_airport}</div>
                 </div>
-                <div className='flex flex-col items-center basis-[80%] gap-3'>
-                    <div>Departure Time {data.departure_time}</div>
-                    <hr className='w-full' />
-                    <div>10h 20m</div>
-                    <div>{data.stops} stop</div>
+                <div className='flex flex-col items-center basis-[70%] gap-2'>
+                    <div className='text-sm text-slate-500'>{t('Departure Time')} {data.departure_time}</div>
+                    <div className='w-full h-0.5 bg-slate-200 relative'><div className='w-2 h-2 rounded-full bg-slate-600 absolute -left-1 -top-[3px]'></div><div className='w-2 h-2 rounded-full bg-slate-600 absolute -right-1 -top-[3px]'></div></div>
+                    <div className='text-xs text-slate-500'>10h 20m</div>
                 </div>
-                <div className='flex md:flex-col basis-[10%] items-end gap-3'>
-                    <div>{data.arrival_time}</div>
-                    <div>{data.arrival_airport}</div>
+                <div className='flex md:flex-col basis-[15%] items-end gap-1 text-slate-700'>
+                    <div className="font-semibold text-lg">{data.arrival_time}</div>
+                    <div className="text-sm">{data.arrival_airport}</div>
                 </div>
             </div>
             <div className={`${open ? "hidden" : "block"} w-full flex ${lang === "en" ? 'justify-end' : 'justify-start'}`}>
                 <img className='w-6 flex justify-end cursor-pointer' onClick={() => setOpen(true)} src={arrow} />
             </div>
 
-            <div className={`${open ? "max-h-screen" : "max-h-0"} transition-all duration-500 w-full flex flex-col gap-5`}>
+            <div className={`${open ? "max-h-screen" : "max-h-0"} transition-all duration-500 w-full flex flex-col gap-4`}>
                 <div className={`${open ? "opacity-100" : "opacity-0"} flex justify-end transition-all duration-500`}>
-                    <Link to="/checkout"> <div className={`${cancel ? "hidden" : "block"} bg-[#334155] p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => selectFlight(data.documentId)}>{t('Select Flight & Go To Checkout')}</div></Link>
-                    <div className={`${cancel ? "block" : "hidden"} bg-red-800 p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => deleteFlight()}>Cancel</div>
+                    <Link to="/checkout"> <div className={`${cancel ? "hidden" : "block"} bg-[#334155] hover:bg-slate-800 transition p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => selectFlight(data.documentId)}>{t('Select Flight & Go To Checkout')}</div></Link>
+                    <div className={`${cancel ? "block" : "hidden"} bg-red-700 hover:bg-red-800 transition p-2 text-white font-bold rounded-md shadow-xl cursor-pointer`} onClick={() => deleteFlight()}>Cancel</div>
                 </div>
-                <div className={`font-bold text-[24px] ${open ? "opacity-100" : "opacity-0"} transition-all duration-500`}>{data.departure_airport} - {data.arrival_airport}, {data.date}</div>
-                <div class="flex w-full  divide-x-2 divide-dashed divide-gray-300 rounded-md overflow-hidden text-sm font-sans">
-                    <div class="flex flex-col items-center px-4 py-2 basis-1/2">
-                        <div class="flex items-center space-x-2 w-full">
-                            <div class="text-center">
-                                <div class="font-semibold">AUH</div>
-                                <div class="text-gray-500 text-xs">{data.departure_terminal}</div>
-                                <div class="text-gray-500 text-xs">00:15</div>
+                <div className={`font-bold text-[18px] md:text-[22px] ${open ? "opacity-100" : "opacity-0"} transition-all duration-500`}>{data.departure_airport} - {data.arrival_airport}, {data.date}</div>
+                <div className="flex w-full divide-x-2 divide-dashed divide-gray-300 rounded-md overflow-hidden text-sm font-sans bg-slate-50">
+                    <div className="flex flex-col items-center px-4 py-3 basis-1/2">
+                        <div className="flex items-center w-full justify-between gap-2">
+                            <div className="text-center">
+                                <div className="font-semibold">AUH</div>
+                                <div className="text-gray-500 text-xs">{data.departure_terminal}</div>
+                                <div className="text-gray-500 text-xs">00:15</div>
                             </div>
-                            <div class="h-0.5 bg-black w-full relative">
-                                <div class="w-2 h-2 rounded-full bg-black absolute -left-1 top-1/2 -translate-y-1/2"></div>
-                                <div class="w-2 h-2 rounded-full bg-black absolute -right-1 top-1/2 -translate-y-1/2"></div>
+                            <div className="h-0.5 bg-black w-full relative mx-2">
+                                <div className="w-2 h-2 rounded-full bg-black absolute -left-1 top-1/2 -translate-y-1/2"></div>
+                                <div className="w-2 h-2 rounded-full bg-black absolute -right-1 top-1/2 -translate-y-1/2"></div>
                             </div>
-                            <div class="text-center">
-                                <div class="font-semibold">BOM</div>
-                                <div class="text-gray-500 text-xs">{data.arrival_terminal}</div>
-                                <div class="text-gray-500 text-xs">04:45</div>
+                            <div className="text-center">
+                                <div className="font-semibold">BOM</div>
+                                <div className="text-gray-500 text-xs">{data.arrival_terminal}</div>
+                                <div className="text-gray-500 text-xs">04:45</div>
                             </div>
                         </div>
-                        <div class="text-gray-500 text-xs mt-1">🕒 03h00m</div>
+                        <div className="text-gray-500 text-xs mt-1">🕒 03h00m</div>
                     </div>
 
-                    <div class="flex flex-col items-center px-4 py-2 basis-1/2">
-                        <div class="flex items-center space-x-2 w-full">
-                            <div class="text-center">
-                                <div class="font-semibold">BOM</div>
-                                <div class="text-gray-500 text-xs">T2</div>
-                                <div class="text-gray-500 text-xs">07:45</div>
+                    <div className="flex flex-col items-center px-4 py-3 basis-1/2">
+                        <div className="flex items-center w-full justify-between gap-2">
+                            <div className="text-center">
+                                <div className="font-semibold">BOM</div>
+                                <div className="text-gray-500 text-xs">T2</div>
+                                <div className="text-gray-500 text-xs">07:45</div>
                             </div>
-                            <div class="h-0.5 w-full bg-black relative">
-                                <div class="w-2 h-2 rounded-full bg-black absolute -left-1 top-1/2 -translate-y-1/2"></div>
-                                <div class="w-2 h-2 rounded-full bg-black absolute -right-1 top-1/2 -translate-y-1/2"></div>
+                            <div className="h-0.5 w-full bg-black relative mx-2">
+                                <div className="w-2 h-2 rounded-full bg-black absolute -left-1 top-1/2 -translate-y-1/2"></div>
+                                <div className="w-2 h-2 rounded-full bg-black absolute -right-1 top-1/2 -translate-y-1/2"></div>
                             </div>
-                            <div class="text-center">
-                                <div class="font-semibold">BKK</div>
-                                <div class="text-gray-500 text-xs"></div>
-                                <div class="text-gray-500 text-xs">13:35</div>
+                            <div className="text-center">
+                                <div className="font-semibold">BKK</div>
+                                <div className="text-gray-500 text-xs"></div>
+                                <div className="text-gray-500 text-xs">13:35</div>
                             </div>
                         </div>
-                        <div class="text-gray-500 text-xs mt-1">🕒 10h20m</div>
+                        <div className="text-gray-500 text-xs mt-1">🕒 10h20m</div>
                     </div>
                 </div>
             </div>

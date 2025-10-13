@@ -6,5 +6,33 @@
     "why_add_translations": "Why Add Translations?",
     "why_add_translations_text": "Adding translations to your app allows you to reach a broader audience. In today's globalized world, it's crucial to make your content accessible to users who speak different languages.",
     "getting_started": "Getting Started",
-    "getting_started_text": "To get started with translations, we will use a popular library called react-i18next. This library provides all the tools you need to translate your app's content."
+    "getting_started_text": "To get started with translations, we will use a popular library called react-i18next. This library provides all the tools you need to translate your app's content.",
+
+    "testimonials": {
+        "title": "What our customers say",
+        "items": [
+            { "name": "Sarah Ahmed", "role": "Frequent Flyer", "text": "Booking with Flyza is super easy and fast. I always find great deals!" },
+            { "name": "Mohamed Ali", "role": "Traveler", "text": "The interface is clean and the process is smooth from start to finish." },
+            { "name": "Emily Johnson", "role": "Business Trips", "text": "Reliable and efficient. I recommend it for both business and personal trips." }
+        ]
+    },
+
+    "faq": {
+        "title": "Frequently Asked Questions",
+        "items": [
+            { "question": "How can I change my booking?", "answer": "You can manage your booking from 'My Trips' and request modifications as available." },
+            { "question": "Do you offer refunds?", "answer": "Refunds depend on the airline's policy. Check your ticket rules before purchase." },
+            { "question": "Is my payment secure?", "answer": "Yes, all payments are encrypted and processed through trusted gateways." }
+        ]
+    },
+    "no_results": "No flights found for your search",
+    "adjust_filters": "Try adjusting your filters or search criteria.",
+    "please_fill_all_fields": "Please fill out all required fields",
+    "required_field": "This field is required"
+    ,
+    "not_enough_seats": "Not enough seats available",
+    "Passengers": "Passengers",
+    "Tickets": "Tickets",
+    "Print Tickets": "Print Tickets",
+    "Download PDF": "Download PDF"
 }

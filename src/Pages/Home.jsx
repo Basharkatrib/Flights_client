@@ -5,6 +5,8 @@ import Banner from "../Components/Banner/Banner";
 import Destinations from "../Components/Destinations/Destinations";
 import Download from "../Components/Download/Download";
 import Services from "../Components/Services/Services";
+import Testimonials from "../Components/Testimonials/Testimonials";
+import FAQ from "../Components/FAQ/FAQ";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setWidth } from "../store/screenWidthSlice";
@@ -74,6 +76,8 @@ function Home() {
       <Banner />
       <Destinations />
       <Services />
+      <Testimonials />
+      <FAQ />
       <Download />
   </>
 

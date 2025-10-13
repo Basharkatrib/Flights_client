@@ -6,6 +6,8 @@ import Home from "./Pages/Home";
 import Footer from "./Components/Footer/Footer";
 import MyTrips from "./Pages/MyTrips";
 import Checkout from "./Pages/Checkout";
+import Tickets from "./Pages/Tickets";
+import BookedTrips from "./Pages/BookedTrips";
 import { useSelector } from "react-redux";
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -36,6 +38,8 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/mytrips" element={<RequireAuth><MyTrips /></RequireAuth>} />
         <Route path="/checkout" element={<RequireAuth><Checkout /></RequireAuth>} />
+        <Route path="/tickets" element={<RequireAuth><Tickets /></RequireAuth>} />
+        <Route path="/booked" element={<RequireAuth><BookedTrips /></RequireAuth>} />
       </Routes>
       <Footer />
 

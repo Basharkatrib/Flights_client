@@ -89,7 +89,7 @@ function Navbar({ ok, handlee }) {
                 <img src={logo} alt="Flyza Airways Logo" />
             </Link>
             <div className={`hidden md:flex ${lang === "ar" ? "flex-row-reverse" : "flex-row"} items-center gap-4 text-white`}>
-                <a href="#">{t('My Trips')}</a>
+                <Link to="/booked">{t('My Trips')}</Link>
                 <a href="#">{t('Help & Support')}</a>
 
                 {
@@ -142,7 +142,7 @@ function Navbar({ ok, handlee }) {
             </div>
 
             <div className={`flex flex-col text-white md:hidden items-center gap-4 p-3 absolute bg-slate-700 w-[90%] h-auto top-20 left-1/2 ${openmen ? "transform -translate-x-1/2" : "transform translate-x-full"} transition-all duration-500 rounded-xl shadow-3`}>
-                <a className="text-[17px]" href="#">{t('My Trips')}</a>
+                <Link className="text-[17px]" to="/booked">{t('My Trips')}</Link>
                 <a className="text-[17px]" href="#">{t('Help & Support')}</a>
                 {
                     token ? <div className="w-full">

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import FormDetails from "../Components/FormDetails/FormDetails";
 import Trips from "../Components/Trips/Trips";
 import Spinner from "./Spinner";
+import { Toaster } from 'react-hot-toast';
 import { useSelector } from "react-redux";
 
 function MyTrips() {
@@ -39,8 +40,9 @@ function MyTrips() {
       if (loading) return <Spinner />
 
     return (
-        <div className={`w-full flex ${lang === "ar" ? 'flex-row-reverse' : ''} pt-16 md:pt-14`}>
-            <div className={`${start ? 'w-full block' : 'hidden'} md:basis-1/4 md:block md:opacity-100`}>
+        <div className={`w-full flex ${lang === "ar" ? 'flex-row-reverse' : ''} pt-16 md:pt-14 bg-white`}>
+            <Toaster />
+            <div className={`${start ? 'w-full block' : 'hidden'} md:basis-1/4 md:block md:opacity-100 md:sticky md:top-16 h-fit`}>
                 <FormDetails handle = {handleStart} handleSearch = {handleSearch}/>
             </div>
             <div className={`${start ? 'hidden ' : 'block w-full'} md:basis-3/4 md:block md:opacity-100`}>
