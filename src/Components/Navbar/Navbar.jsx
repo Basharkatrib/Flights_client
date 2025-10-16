@@ -89,8 +89,9 @@ function Navbar({ ok, handlee }) {
                 <img src={logo} alt="Flyza Airways Logo" />
             </Link>
             <div className={`hidden md:flex ${lang === "ar" ? "flex-row-reverse" : "flex-row"} items-center gap-4 text-white`}>
-                <Link to="/booked">{t('My Trips')}</Link>
-                <a href="#">{t('Help & Support')}</a>
+                <Link to="/about" className="hover:text-blue-300 transition-colors">{t('About')}</Link>
+                <Link to="/contact" className="hover:text-blue-300 transition-colors">{t('Contact')}</Link>
+                <Link to="/booked" className="hover:text-blue-300 transition-colors">{t('My Trips')}</Link>
 
                 {
                     token ? <div>
@@ -123,6 +124,7 @@ function Navbar({ ok, handlee }) {
                                 horizontal: 'left',
                             }}
                         >
+                            <MenuItem onClick={handleClose}><Link to="/profile">{t('Profile')}</Link></MenuItem>
                             <MenuItem onClick={() => handle()} >{t('Logout')}</MenuItem>
                         </Menu>
                     </div> : <div className="flex gap-4"><Register /> <Login ok={ok} handlee={handlee} /></div>
@@ -142,8 +144,9 @@ function Navbar({ ok, handlee }) {
             </div>
 
             <div className={`flex flex-col text-white md:hidden items-center gap-4 p-3 absolute bg-slate-700 w-[90%] h-auto top-20 left-1/2 ${openmen ? "transform -translate-x-1/2" : "transform translate-x-full"} transition-all duration-500 rounded-xl shadow-3`}>
-                <Link className="text-[17px]" to="/booked">{t('My Trips')}</Link>
-                <a className="text-[17px]" href="#">{t('Help & Support')}</a>
+                <Link className="text-[17px]" to="/about" onClick={() => setOpenmen(false)}>{t('About')}</Link>
+                <Link className="text-[17px]" to="/contact" onClick={() => setOpenmen(false)}>{t('Contact')}</Link>
+                <Link className="text-[17px]" to="/booked" onClick={() => setOpenmen(false)}>{t('My Trips')}</Link>
                 {
                     token ? <div className="w-full">
                         <div className="text-center cursor-pointer flex justify-center gap-2 text-[17px]" onClick={() => setAccor(!accor)}> {lang === "en"
@@ -152,6 +155,7 @@ function Navbar({ ok, handlee }) {
                             <svg className={`w-3 transition-all duration-500 ${accor ? 'transform rotate-180' : ''}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="#ffffff" d="M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"/></svg>
                             </div>
                         <div className={`${accor ? "max-h-screen" : "max-h-0"} bg-slate-50  transition-all duration-500`}>
+                            <Link to="/profile" className={`${accor ? "opacity-100 block" : "opacity-0 hidden"} py-2 transition-all duration-500 text-black text-center text-[17px] border-b border-slate-300`} onClick={() => { setOpenmen(false); setAccor(false); }}>{t('Profile')}</Link>
                             <div className={`${accor ? "opacity-100 block" : "opacity-0 hidden"} py-2 transition-all duration-500 text-black text-center text-[17px]`} onClick={() => dispatch(logout())}>{t('Logout')}</div>
                         </div>
 

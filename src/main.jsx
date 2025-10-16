@@ -9,6 +9,7 @@ import { persistStore } from "redux-persist";
 import './i18n.js';
 import { BrowserRouter as Router, Routes, Route, useNavigate, BrowserRouter } from 'react-router-dom';
 import Spinner from "./Components/Spinner/Spinner.jsx";
+import 'leaflet/dist/leaflet.css';
 
 
 let persistor = persistStore(store);
