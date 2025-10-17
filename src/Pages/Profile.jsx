@@ -3,8 +3,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import AOS from "aos";
-import "aos/dist/aos.css";
 import toast from 'react-hot-toast';
 import { setUser } from "../store/authSlice";
 
@@ -19,10 +17,6 @@ function Profile() {
   useEffect(() => {
     i18n.changeLanguage(lang);
   }, [lang, i18n]);
-
-  useEffect(() => {
-    AOS.init({ duration: 1000 });
-  }, []);
 
   // Mock saved travelers data
   const [savedTravelers, setSavedTravelers] = useState([
@@ -95,19 +89,19 @@ function Profile() {
   };
 
   return (
-    <div className="w-full pt-12 pb-12 bg-slate-50 min-h-screen">
+    <div className="w-full bg-slate-50 min-h-screen overflow-x-hidden">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 text-white py-16 px-4">
+      <div className="bg-blue-600 text-white py-16 px-4 mt-10">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-6" data-aos="fade-right">
-            <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center text-4xl font-bold text-blue-600 shadow-xl">
+          <div className="flex items-center gap-6">
+            <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-3xl font-bold text-blue-600">
               {user?.username?.charAt(0).toUpperCase() || 'U'}
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-2">
+              <h1 className="text-2xl md:text-3xl font-bold mb-1">
                 {lang === "ar" ? `مرحباً، ${user?.username || 'المستخدم'}` : `Welcome, ${user?.username || 'User'}`}
               </h1>
-              <p className="text-blue-100">
+              <p className="text-blue-100 text-sm">
                 {user?.email || 'user@flyza.com'}
               </p>
             </div>
@@ -115,18 +109,18 @@ function Profile() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 mt-8">
+      <div className="max-w-6xl mx-auto px-4 mt-8 pb-8">
         {/* Tabs */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden" data-aos="fade-up">
+        <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className={`flex ${lang === "ar" ? "flex-row-reverse" : ""} border-b border-slate-200 overflow-x-auto`}>
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 px-6 py-4 font-semibold transition-all duration-300 whitespace-nowrap ${
+                className={`flex-1 px-6 py-3 font-medium whitespace-nowrap ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white'
-                    : 'text-slate-700 hover:bg-slate-50'
+                    ? 'bg-blue-600 text-white border-b-2 border-blue-600'
+                    : 'text-slate-600 hover:bg-slate-50'
                 }`}
               >
                 <span className="mr-2">{tab.icon}</span>
@@ -135,10 +129,10 @@ function Profile() {
             ))}
           </div>
 
-          <div className="p-8">
+          <div className="p-6">
             {/* Personal Info Tab */}
             {activeTab === 'personal' && (
-              <div data-aos="fade-in">
+              <div>
                 <div className={`flex justify-between items-center mb-6 ${lang === "ar" ? "flex-row-reverse" : ""}`}>
                   <h2 className="text-2xl font-bold text-slate-900">
                     {lang === "ar" ? "معلوماتك الشخصية" : "Your Personal Information"}
@@ -244,7 +238,7 @@ function Profile() {
                     <div className="flex gap-4 justify-end">
                       <button
                         type="submit"
-                        className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                        className="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700"
                       >
                         {lang === "ar" ? "حفظ التغييرات" : "Save Changes"}
                       </button>
@@ -256,12 +250,12 @@ function Profile() {
 
             {/* Saved Travelers Tab */}
             {activeTab === 'travelers' && (
-              <div data-aos="fade-in">
+              <div>
                 <div className={`flex justify-between items-center mb-6 ${lang === "ar" ? "flex-row-reverse" : ""}`}>
                   <h2 className="text-2xl font-bold text-slate-900">
                     {lang === "ar" ? "المسافرون المحفوظون" : "Saved Travelers"}
                   </h2>
-                  <button className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                  <button className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                     {lang === "ar" ? "+ إضافة مسافر" : "+ Add Traveler"}
                   </button>
                 </div>
@@ -270,7 +264,7 @@ function Profile() {
                   {savedTravelers.map((traveler) => (
                     <div
                       key={traveler.id}
-                      className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 border border-slate-200 hover:shadow-lg transition-shadow"
+                      className="bg-slate-50 rounded-lg p-6 border border-slate-200"
                     >
                       <div className="grid md:grid-cols-4 gap-4">
                         <div className={lang === "ar" ? "text-right" : "text-left"}>
@@ -288,7 +282,7 @@ function Profile() {
                         <div className={`flex items-end ${lang === "ar" ? "justify-start" : "justify-end"}`}>
                           <button
                             onClick={() => handleRemoveTraveler(traveler.id)}
-                            className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                            className="px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg"
                           >
                             {lang === "ar" ? "حذف" : "Remove"}
                           </button>
@@ -302,13 +296,13 @@ function Profile() {
 
             {/* Preferences Tab */}
             {activeTab === 'preferences' && (
-              <div data-aos="fade-in">
+              <div>
                 <h2 className={`text-2xl font-bold text-slate-900 mb-6 ${lang === "ar" ? "text-right" : "text-left"}`}>
                   {lang === "ar" ? "تفضيلات السفر" : "Travel Preferences"}
                 </h2>
 
                 <div className="space-y-6">
-                  <div className="bg-slate-50 rounded-xl p-6">
+                  <div className="bg-slate-50 rounded-lg p-6">
                     <label className={`block text-slate-900 font-semibold mb-4 ${lang === "ar" ? "text-right" : "text-left"}`}>
                       {lang === "ar" ? "تفضيل المقعد" : "Seat Preference"}
                     </label>
@@ -317,10 +311,10 @@ function Profile() {
                         <button
                           key={seat}
                           onClick={() => handlePreferenceChange('seatPreference', seat)}
-                          className={`px-4 py-3 rounded-lg font-medium transition-all ${
+                          className={`px-4 py-3 rounded-lg font-medium ${
                             preferences.seatPreference === seat
-                              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                              : 'bg-white text-slate-700 hover:bg-slate-100'
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                           }`}
                         >
                           {seat === 'window' ? (lang === "ar" ? "نافذة" : "Window") :
@@ -331,7 +325,7 @@ function Profile() {
                     </div>
                   </div>
 
-                  <div className="bg-slate-50 rounded-xl p-6">
+                  <div className="bg-slate-50 rounded-lg p-6">
                     <label className={`block text-slate-900 font-semibold mb-4 ${lang === "ar" ? "text-right" : "text-left"}`}>
                       {lang === "ar" ? "تفضيل الوجبة" : "Meal Preference"}
                     </label>
@@ -340,10 +334,10 @@ function Profile() {
                         <button
                           key={meal}
                           onClick={() => handlePreferenceChange('mealPreference', meal)}
-                          className={`px-4 py-3 rounded-lg font-medium transition-all ${
+                          className={`px-4 py-3 rounded-lg font-medium ${
                             preferences.mealPreference === meal
-                              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                              : 'bg-white text-slate-700 hover:bg-slate-100'
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-200'
                           }`}
                         >
                           {meal === 'regular' ? (lang === "ar" ? "عادي" : "Regular") :
@@ -354,7 +348,7 @@ function Profile() {
                     </div>
                   </div>
 
-                  <div className="bg-slate-50 rounded-xl p-6 space-y-4">
+                  <div className="bg-slate-50 rounded-lg p-6 space-y-4">
                     <div className={`flex items-center justify-between ${lang === "ar" ? "flex-row-reverse" : ""}`}>
                       <div className={lang === "ar" ? "text-right" : "text-left"}>
                         <p className="font-semibold text-slate-900">{lang === "ar" ? "إشعارات الرحلات" : "Flight Notifications"}</p>
@@ -394,21 +388,21 @@ function Profile() {
         </div>
 
         {/* Stats Section */}
-        <div className="grid md:grid-cols-3 gap-6 mt-8" data-aos="fade-up">
-          <div className="bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl p-6 shadow-xl">
-            <div className="text-4xl mb-2">✈️</div>
-            <div className="text-3xl font-bold mb-2">12</div>
-            <div className="text-blue-100">{lang === "ar" ? "رحلة مكتملة" : "Completed Trips"}</div>
+        <div className="grid md:grid-cols-3 gap-4 mt-6">
+          <div className="bg-blue-600 text-white rounded-lg p-5 shadow">
+            <div className="text-3xl mb-2">✈️</div>
+            <div className="text-2xl font-bold mb-1">12</div>
+            <div className="text-blue-100 text-sm">{lang === "ar" ? "رحلة مكتملة" : "Completed Trips"}</div>
           </div>
-          <div className="bg-gradient-to-br from-purple-500 to-purple-600 text-white rounded-2xl p-6 shadow-xl">
-            <div className="text-4xl mb-2">🌍</div>
-            <div className="text-3xl font-bold mb-2">8</div>
-            <div className="text-purple-100">{lang === "ar" ? "دولة تمت زيارتها" : "Countries Visited"}</div>
+          <div className="bg-purple-600 text-white rounded-lg p-5 shadow">
+            <div className="text-3xl mb-2">🌍</div>
+            <div className="text-2xl font-bold mb-1">8</div>
+            <div className="text-purple-100 text-sm">{lang === "ar" ? "دولة تمت زيارتها" : "Countries Visited"}</div>
           </div>
-          <div className="bg-gradient-to-br from-pink-500 to-pink-600 text-white rounded-2xl p-6 shadow-xl">
-            <div className="text-4xl mb-2">⭐</div>
-            <div className="text-3xl font-bold mb-2">4.9</div>
-            <div className="text-pink-100">{lang === "ar" ? "متوسط التقييم" : "Average Rating"}</div>
+          <div className="bg-pink-600 text-white rounded-lg p-5 shadow">
+            <div className="text-3xl mb-2">⭐</div>
+            <div className="text-2xl font-bold mb-1">4.9</div>
+            <div className="text-pink-100 text-sm">{lang === "ar" ? "متوسط التقييم" : "Average Rating"}</div>
           </div>
         </div>
       </div>

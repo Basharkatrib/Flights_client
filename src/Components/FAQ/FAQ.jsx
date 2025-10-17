@@ -24,7 +24,7 @@ function FAQ() {
   };
 
   return (
-    <div className="w-full px-4 py-12 mt-16 bg-gradient-to-b from-white to-slate-50">
+    <div className="w-full px-4 py-12 mt-16 bg-gradient-to-b from-white to-slate-50 overflow-x-hidden">
       <div className="mx-auto">
         {/* Header Section */}
         <div className={`${lang === "ar" ? "text-right" : "text-left"} mb-12 text-center`}>

@@ -116,7 +116,7 @@ function Contact() {
   });
 
   return (
-    <div className="w-full pt-12 pb-12">
+    <div className="w-full pt-12 pb-12 overflow-x-hidden">
       {/* Hero Section */}
       <div className="relative bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20 px-4">
         <div className="max-w-6xl mx-auto text-center">

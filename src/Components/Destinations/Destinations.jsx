@@ -206,7 +206,7 @@ function Destinations(){
    }
 
     return(
-        <div className="w-full flex flex-col p-4 mt-20">
+        <div className="w-full flex flex-col p-4 mt-20 overflow-x-hidden">
           {/* Header with Map Toggle */}
           <div className={`flex justify-between items-center mb-6 ${lang === "ar" ? "flex-row-reverse" : ""}`}>
             <div className={`${lang === "ar"? "text-right" : "text-left"} text-[32px] font-bold`}>
